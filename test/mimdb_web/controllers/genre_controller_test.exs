@@ -27,14 +27,13 @@ defmodule MimdbWeb.GenreControllerTest do
   end
 
   describe "create genre" do
-    test "redirects to show when data is valid", %{conn: conn} do
+    test "redirects to index when data is valid", %{conn: conn} do
       conn = post(conn, Routes.genre_path(conn, :create), genre: @create_attrs)
 
-      assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.genre_path(conn, :show, id)
+      assert redirected_to(conn) == Routes.genre_path(conn, :index)
 
-      conn = get(conn, Routes.genre_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Genre"
+      conn = get(conn, Routes.genre_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Genres"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -75,6 +74,7 @@ defmodule MimdbWeb.GenreControllerTest do
     test "deletes chosen genre", %{conn: conn, genre: genre} do
       conn = delete(conn, Routes.genre_path(conn, :delete, genre))
       assert redirected_to(conn) == Routes.genre_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.genre_path(conn, :show, genre))
       end

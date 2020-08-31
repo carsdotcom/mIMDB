@@ -14,7 +14,6 @@
       <td><%= genre.name %></td>
 
       <td>
-        <span><%= link "Show", to: Routes.genre_path(@conn, :show, genre) %></span>
         <span><%= link "Edit", to: Routes.genre_path(@conn, :edit, genre) %></span>
         <span><%= link "Delete", to: Routes.genre_path(@conn, :delete, genre), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>

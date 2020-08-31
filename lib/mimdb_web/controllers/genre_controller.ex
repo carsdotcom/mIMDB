@@ -19,7 +19,7 @@ defmodule MimdbWeb.GenreController do
       {:ok, genre} ->
         conn
         |> put_flash(:info, "Genre created successfully.")
-        |> redirect(to: Routes.genre_path(conn, :show, genre))
+        |> redirect(to: Routes.genre_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
