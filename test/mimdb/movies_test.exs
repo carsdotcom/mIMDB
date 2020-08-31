@@ -38,6 +38,12 @@ defmodule Mimdb.MoviesTest do
       assert {:error, %Ecto.Changeset{}} = Movies.create_genre(@invalid_attrs)
     end
 
+    test "create_genre/1 with duplicate data returns error changeset" do
+      _ = genre_fixture()
+
+      assert {:error, %Ecto.Changeset{}} = Movies.create_genre(@valid_attrs)
+    end
+
     test "update_genre/2 with valid data updates the genre" do
       genre = genre_fixture()
       assert {:ok, %Genre{} = genre} = Movies.update_genre(genre, @update_attrs)
