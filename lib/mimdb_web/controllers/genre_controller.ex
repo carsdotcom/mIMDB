@@ -16,7 +16,7 @@ defmodule MimdbWeb.GenreController do
 
   def create(conn, %{"genre" => genre_params}) do
     case Movies.create_genre(genre_params) do
-      {:ok, genre} ->
+      {:ok, _genre} ->
         conn
         |> put_flash(:info, "Genre created successfully.")
         |> redirect(to: Routes.genre_path(conn, :index))
@@ -41,10 +41,10 @@ defmodule MimdbWeb.GenreController do
     genre = Movies.get_genre!(id)
 
     case Movies.update_genre(genre, genre_params) do
-      {:ok, genre} ->
+      {:ok, _genre} ->
         conn
         |> put_flash(:info, "Genre updated successfully.")
-        |> redirect(to: Routes.genre_path(conn, :show, genre))
+        |> redirect(to: Routes.genre_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", genre: genre, changeset: changeset)

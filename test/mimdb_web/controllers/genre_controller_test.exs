@@ -56,10 +56,10 @@ defmodule MimdbWeb.GenreControllerTest do
 
     test "redirects when data is valid", %{conn: conn, genre: genre} do
       conn = put(conn, Routes.genre_path(conn, :update, genre), genre: @update_attrs)
-      assert redirected_to(conn) == Routes.genre_path(conn, :show, genre)
+      assert redirected_to(conn) == Routes.genre_path(conn, :index)
 
-      conn = get(conn, Routes.genre_path(conn, :show, genre))
-      assert html_response(conn, 200) =~ "some updated name"
+      conn = get(conn, Routes.genre_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Genres"
     end
 
     test "renders errors when data is invalid", %{conn: conn, genre: genre} do
