@@ -16,6 +16,7 @@ defmodule MimdbWeb.Router do
   scope "/", MimdbWeb do
     pipe_through :browser
 
+    resources "/actors", ActorController
     get "/", PageController, :index
   end
 

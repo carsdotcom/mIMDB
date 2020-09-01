@@ -1,0 +1,18 @@
+<h1>Show Actor</h1>
+
+<ul>
+
+  <li>
+    <strong>Name:</strong>
+    <%= @actor.name %>
+  </li>
+
+  <li>
+    <strong>Birthdate:</strong>
+    <%= @actor.birthdate %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.actor_path(@conn, :edit, @actor) %></span>
+<span><%= link "Back", to: Routes.actor_path(@conn, :index) %></span>
