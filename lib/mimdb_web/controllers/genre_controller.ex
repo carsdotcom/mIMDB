@@ -26,11 +26,6 @@ defmodule MimdbWeb.GenreController do
     end
   end
 
-  def show(conn, %{"id" => id}) do
-    genre = Movies.get_genre!(id)
-    render(conn, "show.html", genre: genre)
-  end
-
   def edit(conn, %{"id" => id}) do
     genre = Movies.get_genre!(id)
     changeset = Movies.change_genre(genre)

@@ -75,9 +75,8 @@ defmodule MimdbWeb.GenreControllerTest do
       conn = delete(conn, Routes.genre_path(conn, :delete, genre))
       assert redirected_to(conn) == Routes.genre_path(conn, :index)
 
-      assert_error_sent 404, fn ->
-        get(conn, Routes.genre_path(conn, :show, genre))
-      end
+      conn = get(conn, Routes.genre_path(conn, :index))
+      refute html_response(conn, 200) =~ genre.name
     end
   end
 
