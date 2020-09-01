@@ -1,21 +1,21 @@
 defmodule MimdbWeb.ActorController do
   use MimdbWeb, :controller
 
-  alias Mimdb.Actors
-  alias Mimdb.Actors.Actor
+  alias Mimdb.Movies
+  alias Mimdb.Movies.Actor
 
   def index(conn, _params) do
-    actors = Actors.list_actors()
+    actors = Movies.list_actors()
     render(conn, "index.html", actors: actors)
   end
 
   def new(conn, _params) do
-    changeset = Actors.change_actor(%Actor{})
+    changeset = Movies.change_actor(%Actor{})
     render(conn, "new.html", changeset: changeset)
   end
 
   def create(conn, %{"actor" => actor_params}) do
-    case Actors.create_actor(actor_params) do
+    case Movies.create_actor(actor_params) do
       {:ok, actor} ->
         conn
         |> put_flash(:info, "Actor created successfully.")
@@ -27,20 +27,20 @@ defmodule MimdbWeb.ActorController do
   end
 
   def show(conn, %{"id" => id}) do
-    actor = Actors.get_actor!(id)
+    actor = Movies.get_actor!(id)
     render(conn, "show.html", actor: actor)
   end
 
   def edit(conn, %{"id" => id}) do
-    actor = Actors.get_actor!(id)
-    changeset = Actors.change_actor(actor)
+    actor = Movies.get_actor!(id)
+    changeset = Movies.change_actor(actor)
     render(conn, "edit.html", actor: actor, changeset: changeset)
   end
 
   def update(conn, %{"id" => id, "actor" => actor_params}) do
-    actor = Actors.get_actor!(id)
+    actor = Movies.get_actor!(id)
 
-    case Actors.update_actor(actor, actor_params) do
+    case Movies.update_actor(actor, actor_params) do
       {:ok, actor} ->
         conn
         |> put_flash(:info, "Actor updated successfully.")
@@ -52,8 +52,8 @@ defmodule MimdbWeb.ActorController do
   end
 
   def delete(conn, %{"id" => id}) do
-    actor = Actors.get_actor!(id)
-    {:ok, _actor} = Actors.delete_actor(actor)
+    actor = Movies.get_actor!(id)
+    {:ok, _actor} = Movies.delete_actor(actor)
 
     conn
     |> put_flash(:info, "Actor deleted successfully.")

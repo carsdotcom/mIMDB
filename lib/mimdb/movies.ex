@@ -1,12 +1,12 @@
-defmodule Mimdb.Actors do
+defmodule Mimdb.Movies do
   @moduledoc """
-  The Actors context.
+  The Movies context.
   """
 
   import Ecto.Query, warn: false
   alias Mimdb.Repo
 
-  alias Mimdb.Actors.Actor
+  alias Mimdb.Movies.Actor
 
   @doc """
   Returns the list of actors.

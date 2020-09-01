@@ -1,14 +1,14 @@
 defmodule MimdbWeb.ActorControllerTest do
   use MimdbWeb.ConnCase
 
-  alias Mimdb.Actors
+  alias Mimdb.Movies
 
   @create_attrs %{birthdate: ~D[2010-04-17], name: "some name"}
   @update_attrs %{birthdate: ~D[2011-05-18], name: "some updated name"}
   @invalid_attrs %{birthdate: nil, name: nil}
 
   def fixture(:actor) do
-    {:ok, actor} = Actors.create_actor(@create_attrs)
+    {:ok, actor} = Movies.create_actor(@create_attrs)
     actor
   end
 

@@ -1,7 +1,10 @@
 defmodule MimdbWeb.ActorView do
   use MimdbWeb, :view
 
-  def age(date_fn, actor) do
-    Kernel.trunc(Date.diff(date_fn.(), actor.birthdate) / 365)
+  def age(actor) do
+    date = DateTime.now!("America/Chicago")
+    |> DateTime.to_date()
+
+    Kernel.trunc(Date.diff(date, actor.birthdate) / 365)
   end
 end

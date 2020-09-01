@@ -1,4 +1,4 @@
-defmodule Mimdb.Actors.Actor do
+defmodule Mimdb.Movies.Actor do
   use Ecto.Schema
   import Ecto.Changeset
 
