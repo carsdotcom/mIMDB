@@ -8,9 +8,10 @@ defmodule MimdbWeb.ActorViewTest do
 
   @create_attrs %{birthdate: ~D[1956-07-09], name: "Tom Hanks"}
 
-  test "show correct age" do
+  test "return age" do
+    date_fn = fn -> ~D[2020-07-09] end
     {:ok, actor} = Actors.create_actor(@create_attrs)
 
-    assert ActorView.age(~D[2020-09-01], actor) == 64
+    assert ActorView.age(date_fn, actor) == 64
   end
 end
