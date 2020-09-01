@@ -24,13 +24,20 @@ defmodule Mimdb.Users.User do
   def registration_changeset(user, attrs) do
     user
     |> cast(attrs, [:name, :email, :password])
+    |> validate_name()
     |> validate_email()
     |> validate_password()
   end
 
+  defp validate_name(changeset) do
+    changeset
+    |> validate_required([:name])
+    |> validate_length(:name, max: 160)
+  end
+
   defp validate_email(changeset) do
     changeset
-    |> validate_required([:name, :email])
+    |> validate_required([:email])
     |> validate_format(:email, ~r/^[^\s]+@[^\s]+$/, message: "must have the @ sign and no spaces")
     |> validate_length(:email, max: 160)
     |> unsafe_validate_unique(:email, Mimdb.Repo)

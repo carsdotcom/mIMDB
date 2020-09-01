@@ -52,24 +52,27 @@ defmodule Mimdb.UsersTest do
       {:error, changeset} = Users.register_user(%{})
 
       assert %{
+               name: ["can't be blank"],
                password: ["can't be blank"],
                email: ["can't be blank"]
              } = errors_on(changeset)
     end
 
-    test "validates email and password when given" do
-      {:error, changeset} = Users.register_user(%{email: "not valid", password: "not valid"})
+    test "validates email, name, and password when given" do
+      {:error, changeset} = Users.register_user(%{email: "not valid", name: "", password: "not valid"})
 
       assert %{
+               name: ["can't be blank"],
                email: ["must have the @ sign and no spaces"],
                password: ["should be at least 12 character(s)"]
              } = errors_on(changeset)
     end
 
-    test "validates maximum values for e-mail and password for security" do
+    test "validates maximum values for e-mail, name,  and password for security" do
       too_long = String.duplicate("db", 100)
-      {:error, changeset} = Users.register_user(%{email: too_long, password: too_long})
+      {:error, changeset} = Users.register_user(%{email: too_long, name: too_long, password: too_long})
       assert "should be at most 160 character(s)" in errors_on(changeset).email
+      assert "should be at most 160 character(s)" in errors_on(changeset).name
       assert "should be at most 80 character(s)" in errors_on(changeset).password
     end
 
@@ -97,14 +100,14 @@ defmodule Mimdb.UsersTest do
   describe "change_user_registration/2" do
     test "returns a changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_registration(%User{})
-      assert changeset.required == [:password, :name, :email]
+      assert changeset.required == [:password, :email, :name]
     end
   end
 
   describe "change_user_email/2" do
     test "returns a user changeset" do
       assert %Ecto.Changeset{} = changeset = Users.change_user_email(%User{})
-      assert changeset.required == [ :name, :email]
+      assert changeset.required == [:email]
     end
   end
 
@@ -133,6 +136,8 @@ defmodule Mimdb.UsersTest do
 
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
+
+
 
     test "validates e-mail uniqueness", %{user: user} do
       %{email: email} = user_fixture()
