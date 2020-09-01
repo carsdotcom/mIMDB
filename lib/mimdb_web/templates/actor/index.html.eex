@@ -15,7 +15,7 @@
     <tr>
       <td><%= actor.name %></td>
       <td><%= actor.birthdate %></td>
-      <td><%= age(actor) %></td>
+      <td><%= age(Date.utc_today, actor) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.actor_path(@conn, :show, actor) %></span>

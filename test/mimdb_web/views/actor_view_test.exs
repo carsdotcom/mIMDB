@@ -10,6 +10,7 @@ defmodule MimdbWeb.ActorViewTest do
 
   test "show correct age" do
     {:ok, actor} = Actors.create_actor(@create_attrs)
-    assert ActorView.age(actor) == 64
+
+    assert ActorView.age(~D[2020-09-01], actor) == 64
   end
 end
