@@ -40,7 +40,6 @@ defmodule Mimdb.MoviesTest do
 
     test "create_genre/1 with duplicate data returns error changeset" do
       _ = genre_fixture()
-
       assert {:error, %Ecto.Changeset{}} = Movies.create_genre(@valid_attrs)
     end
 
@@ -65,6 +64,9 @@ defmodule Mimdb.MoviesTest do
     test "change_genre/1 returns a genre changeset" do
       genre = genre_fixture()
       assert %Ecto.Changeset{} = Movies.change_genre(genre)
+    end
+  end
+
   describe "actors" do
     alias Mimdb.Movies.Actor
 

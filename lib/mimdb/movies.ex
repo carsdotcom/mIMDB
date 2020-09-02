@@ -5,8 +5,8 @@ defmodule Mimdb.Movies do
 
   import Ecto.Query, warn: false
   alias Mimdb.Repo
-
   alias Mimdb.Movies.Genre
+  alias Mimdb.Movies.Actor
 
   @doc """
   Returns the list of genres.
@@ -52,7 +52,55 @@ defmodule Mimdb.Movies do
   def create_genre(attrs \\ %{}) do
     %Genre{}
     |> Genre.changeset(attrs)
-  alias Mimdb.Movies.Actor
+    |> Repo.insert()
+  end
+
+  @doc """
+  Updates a genre.
+
+  ## Examples
+
+      iex> update_genre(genre, %{field: new_value})
+      {:ok, %Genre{}}
+
+      iex> update_genre(genre, %{field: bad_value})
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def update_genre(%Genre{} = genre, attrs) do
+    genre
+    |> Genre.changeset(attrs)
+    |> Repo.update()
+  end
+
+  @doc """
+  Deletes a genre.
+
+  ## Examples
+
+      iex> delete_genre(genre)
+      {:ok, %Genre{}}
+
+      iex> delete_genre(genre)
+      {:error, %Ecto.Changeset{}}
+
+  """
+  def delete_genre(%Genre{} = genre) do
+    Repo.delete(genre)
+  end
+
+  @doc """
+  Returns an `%Ecto.Changeset{}` for tracking genre changes.
+
+  ## Examples
+
+      iex> change_genre(genre)
+      %Ecto.Changeset{data: %Genre{}}
+
+  """
+  def change_genre(%Genre{} = genre, attrs \\ %{}) do
+    Genre.changeset(genre, attrs)
+  end
 
   @doc """
   Returns the list of actors.
@@ -102,30 +150,14 @@ defmodule Mimdb.Movies do
   end
 
   @doc """
-  Updates a genre.
+    Updates an actor
+    ## Examples
 
-  ## Examples
+    iex> update_actor(actor, %{field: new_value})
+                             {:ok, %Actor{}}
 
-      iex> update_genre(genre, %{field: new_value})
-      {:ok, %Genre{}}
-
-      iex> update_genre(genre, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def update_genre(%Genre{} = genre, attrs) do
-    genre
-    |> Genre.changeset(attrs)
-  Updates a actor.
-
-  ## Examples
-
-      iex> update_actor(actor, %{field: new_value})
-      {:ok, %Actor{}}
-
-      iex> update_actor(actor, %{field: bad_value})
-      {:error, %Ecto.Changeset{}}
-
+    iex> update_actor(actor, %{field: bad_value})
+            {:error, %Ecto.Changeset{}}
   """
   def update_actor(%Actor{} = actor, attrs) do
     actor
@@ -134,32 +166,6 @@ defmodule Mimdb.Movies do
   end
 
   @doc """
-  Deletes a genre.
-
-  ## Examples
-
-      iex> delete_genre(genre)
-      {:ok, %Genre{}}
-
-      iex> delete_genre(genre)
-      {:error, %Ecto.Changeset{}}
-
-  """
-  def delete_genre(%Genre{} = genre) do
-    Repo.delete(genre)
-  end
-
-  @doc """
-  Returns an `%Ecto.Changeset{}` for tracking genre changes.
-
-  ## Examples
-
-      iex> change_genre(genre)
-      %Ecto.Changeset{data: %Genre{}}
-
-  """
-  def change_genre(%Genre{} = genre, attrs \\ %{}) do
-    Genre.changeset(genre, attrs)
   Deletes a actor.
 
   ## Examples

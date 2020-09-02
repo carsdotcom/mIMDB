@@ -8,6 +8,5 @@ defmodule Mimdb.Repo.Migrations.CreateActors do
 
       timestamps()
     end
-
   end
 end
