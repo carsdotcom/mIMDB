@@ -21,8 +21,12 @@ defmodule MimdbWeb.MovieControllerTest do
 
   describe "new movie" do
     test "renders form", %{conn: conn} do
+      {:ok, genre} = Movies.create_genre(%{name: "some name"})
       conn = get(conn, Routes.movie_path(conn, :new))
       assert html_response(conn, 200) =~ "New Movie"
+      assert html_response(conn, 200) =~ "List of Genres"
+      assert html_response(conn, 200) =~ "some name"
+      assert html_response(conn, 200) =~ "<input type=checkbox"
     end
   end
 

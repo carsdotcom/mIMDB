@@ -15,6 +15,7 @@ defmodule Mimdb.Movies.Movie do
   def changeset(movie, attrs) do
     movie
     |> cast(attrs, [:title, :release])
+    |> cast_assoc(:genres)
     |> validate_required([:title, :release])
   end
 end
