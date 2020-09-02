@@ -75,6 +75,7 @@ defmodule MimdbWeb.ActorControllerTest do
     test "deletes chosen actor", %{conn: conn, actor: actor} do
       conn = delete(conn, Routes.actor_path(conn, :delete, actor))
       assert redirected_to(conn) == Routes.actor_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.actor_path(conn, :show, actor))
       end

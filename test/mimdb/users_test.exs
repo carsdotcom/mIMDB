@@ -59,7 +59,8 @@ defmodule Mimdb.UsersTest do
     end
 
     test "validates email, name, and password when given" do
-      {:error, changeset} = Users.register_user(%{email: "not valid", name: "", password: "not valid"})
+      {:error, changeset} =
+        Users.register_user(%{email: "not valid", name: "", password: "not valid"})
 
       assert %{
                name: ["can't be blank"],
@@ -70,7 +71,10 @@ defmodule Mimdb.UsersTest do
 
     test "validates maximum values for e-mail, name,  and password for security" do
       too_long = String.duplicate("db", 100)
-      {:error, changeset} = Users.register_user(%{email: too_long, name: too_long, password: too_long})
+
+      {:error, changeset} =
+        Users.register_user(%{email: too_long, name: too_long, password: too_long})
+
       assert "should be at most 160 character(s)" in errors_on(changeset).email
       assert "should be at most 160 character(s)" in errors_on(changeset).name
       assert "should be at most 80 character(s)" in errors_on(changeset).password
@@ -89,7 +93,10 @@ defmodule Mimdb.UsersTest do
     test "registers users with a hashed password" do
       email = unique_user_email()
       name = unique_user_name()
-      {:ok, user} = Users.register_user(%{email: email, name: name, password: valid_user_password()})
+
+      {:ok, user} =
+        Users.register_user(%{email: email, name: name, password: valid_user_password()})
+
       assert user.email == email
       assert is_binary(user.hashed_password)
       assert is_nil(user.confirmed_at)
@@ -137,20 +144,16 @@ defmodule Mimdb.UsersTest do
       assert "should be at most 160 character(s)" in errors_on(changeset).email
     end
 
-
-
     test "validates e-mail uniqueness", %{user: user} do
       %{email: email} = user_fixture()
 
-      {:error, changeset} =
-        Users.apply_user_email(user, valid_user_password(), %{email: email})
+      {:error, changeset} = Users.apply_user_email(user, valid_user_password(), %{email: email})
 
       assert "has already been taken" in errors_on(changeset).email
     end
 
     test "validates current password", %{user: user} do
-      {:error, changeset} =
-        Users.apply_user_email(user, "invalid", %{email: unique_user_email()})
+      {:error, changeset} = Users.apply_user_email(user, "invalid", %{email: unique_user_email()})
 
       assert %{current_password: ["is not valid"]} = errors_on(changeset)
     end
