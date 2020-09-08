@@ -3,13 +3,23 @@ defmodule MimdbWeb.MovieControllerTest do
 
   alias Mimdb.Movies
 
-  @create_attrs %{release: ~D[2010-04-17], title: "some title"}
-  @update_attrs %{release: ~D[2011-05-18], title: "some updated title"}
+  @create_attrs %{"release" => ~D[2010-04-17], "title" => "some title"}
+  @update_attrs %{"release" => ~D[2011-05-18], "title" => "some updated title"}
   @invalid_attrs %{release: nil, title: nil}
 
   def fixture(:movie) do
-    {:ok, movie} = Movies.create_movie(@create_attrs)
+    genre = create_genre()
+
+    {:ok, movie} = @create_attrs
+    |> Map.put_new("genres", ["#{genre.id}"])
+    |> Movies.create_movie()
+
     movie
+  end
+
+  def create_genre() do
+    {:ok, genre} = Movies.create_genre(%{"name" => "Action"})
+    genre
   end
 
   describe "index" do
@@ -17,12 +27,21 @@ defmodule MimdbWeb.MovieControllerTest do
       conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Movies"
     end
+
+    test "lists all movies sorted by name", %{conn: conn} do
+      conn = get(conn, Routes.movie_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Movies"
+    end
   end
 
   describe "new movie" do
     test "renders form", %{conn: conn} do
+      {:ok, _genre} = Movies.create_genre(%{name: "some name"})
       conn = get(conn, Routes.movie_path(conn, :new))
       assert html_response(conn, 200) =~ "New Movie"
+      assert html_response(conn, 200) =~ "List of Genres"
+      assert html_response(conn, 200) =~ "some name"
+      assert html_response(conn, 200) =~ "type=\"checkbox\""
     end
   end
 

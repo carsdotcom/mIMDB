@@ -13,6 +13,20 @@
   <%= date_select f, :release %>
   <%= error_tag f, :release %>
 
+  <div>List of Genres</div>
+  <%= for genre <- @genres do %>
+    <div>
+      <%= tag(:input,
+        name: input_name(f, :genres) <> "[]",
+        id: input_id(f, :genres, genre.id),
+        type: "checkbox",
+        value: genre.id,
+        checked: is_genre_selected(genre, @changeset)
+        )
+      %>
+      <%= genre.name %>
+    </div>
+  <% end %>
   <div>
     <%= submit "Save" %>
   </div>

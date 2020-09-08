@@ -206,7 +206,12 @@ defmodule Mimdb.Movies do
 
   """
   def list_movies do
-    Repo.all(Movie)
+    query_sorted_movies()
+    |> Repo.all()
+  end
+
+  defp query_sorted_movies() do
+    from(m in Movie, order_by: [asc: m.title])
   end
 
   @doc """
@@ -223,7 +228,15 @@ defmodule Mimdb.Movies do
       ** (Ecto.NoResultsError)
 
   """
-  def get_movie!(id), do: Repo.get!(Movie, id)
+  def get_movie!(id) do
+    Movie
+    |> Repo.get!(id)
+    |> Repo.preload(:genres)
+  end
+
+  def get_only_movie(id) do
+    Repo.get!(Movie, id)
+  end
 
   @doc """
   Creates a movie.
@@ -238,9 +251,25 @@ defmodule Mimdb.Movies do
 
   """
   def create_movie(attrs \\ %{}) do
+    genres = get_genres(attrs["genres"])
     %Movie{}
-    |> Movie.changeset(attrs)
+    |> Movie.changeset(attrs, genres)
     |> Repo.insert()
+  end
+
+  def get_genres(nil) do
+    []
+  end
+
+  def get_genres(genre_ids) do
+    genre_ids
+    |> Enum.map(fn x -> String.to_integer(x) end)
+    |> query_genre_by_ids()
+    |> Repo.all()
+  end
+
+  defp query_genre_by_ids(ids) do
+    from(g in Genre, where: g.id in ^ids)
   end
 
   @doc """
@@ -256,8 +285,9 @@ defmodule Mimdb.Movies do
 
   """
   def update_movie(%Movie{} = movie, attrs) do
+    genres = movie.genres
     movie
-    |> Movie.changeset(attrs)
+    |> Movie.changeset(attrs, genres)
     |> Repo.update()
   end
 
