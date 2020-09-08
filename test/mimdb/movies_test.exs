@@ -189,4 +189,63 @@ defmodule Mimdb.MoviesTest do
       assert %Ecto.Changeset{} = Movies.change_movie(movie)
     end
   end
+
+  describe "roles" do
+    alias Mimdb.Movies.Role
+
+    @valid_attrs %{character: "some character"}
+    @update_attrs %{character: "some updated character"}
+    @invalid_attrs %{character: nil}
+
+    def role_fixture(attrs \\ %{}) do
+      {:ok, role} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Movies.create_role()
+
+      role
+    end
+
+    test "list_roles/0 returns all roles" do
+      role = role_fixture()
+      assert Movies.list_roles() == [role]
+    end
+
+    test "get_role!/1 returns the role with given id" do
+      role = role_fixture()
+      assert Movies.get_role!(role.id) == role
+    end
+
+    test "create_role/1 with valid data creates a role" do
+      assert {:ok, %Role{} = role} = Movies.create_role(@valid_attrs)
+      assert role.character == "some character"
+    end
+
+    test "create_role/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Movies.create_role(@invalid_attrs)
+    end
+
+    test "update_role/2 with valid data updates the role" do
+      role = role_fixture()
+      assert {:ok, %Role{} = role} = Movies.update_role(role, @update_attrs)
+      assert role.character == "some updated character"
+    end
+
+    test "update_role/2 with invalid data returns error changeset" do
+      role = role_fixture()
+      assert {:error, %Ecto.Changeset{}} = Movies.update_role(role, @invalid_attrs)
+      assert role == Movies.get_role!(role.id)
+    end
+
+    test "delete_role/1 deletes the role" do
+      role = role_fixture()
+      assert {:ok, %Role{}} = Movies.delete_role(role)
+      assert_raise Ecto.NoResultsError, fn -> Movies.get_role!(role.id) end
+    end
+
+    test "change_role/1 returns a role changeset" do
+      role = role_fixture()
+      assert %Ecto.Changeset{} = Movies.change_role(role)
+    end
+  end
 end

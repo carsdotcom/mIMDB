@@ -1,8 +1,6 @@
 defmodule MimdbWeb.ActorViewTest do
   use MimdbWeb.ConnCase, async: true
 
-  import Phoenix.View
-
   alias Mimdb.Movies
   alias MimdbWeb.ActorView
 

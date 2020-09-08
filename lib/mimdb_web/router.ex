@@ -23,6 +23,7 @@ defmodule MimdbWeb.Router do
     get "/", PageController, :index
     resources "/genres", GenreController, except: [:show]
     resources "/movies", MovieController
+    resources "/roles", RoleController
   end
 
   # Other scopes may use custom stacks.

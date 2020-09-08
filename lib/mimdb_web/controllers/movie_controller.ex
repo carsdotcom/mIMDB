@@ -17,6 +17,7 @@ defmodule MimdbWeb.MovieController do
 
   def create(conn, %{"movie" => movie_params}) do
     genres = Movies.list_genres()
+
     case Movies.create_movie(movie_params) do
       {:ok, movie} ->
         conn
@@ -24,7 +25,6 @@ defmodule MimdbWeb.MovieController do
         |> redirect(to: Routes.movie_path(conn, :show, movie))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         render(conn, "new.html", changeset: changeset, genres: genres)
     end
   end
