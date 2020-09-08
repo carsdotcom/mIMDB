@@ -22,5 +22,3 @@
 <% end %>
   </tbody>
 </table>
-
-<span><%= link "New Role", to: Routes.role_path(@conn, :new) %></span>

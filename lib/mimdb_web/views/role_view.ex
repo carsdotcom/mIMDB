@@ -3,6 +3,6 @@ defmodule MimdbWeb.RoleView do
 
   def actor_select_options(actors) do
     actors
-    |> Enum.map(&{&1.id, &1.name})
+    |> Enum.map(&{&1.name, &1.id})
   end
 end

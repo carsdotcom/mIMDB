@@ -21,7 +21,7 @@ defmodule MimdbWeb.RoleControllerTest do
 
   describe "new role" do
     test "renders form", %{conn: conn} do
-      conn = get(conn, Routes.role_path(conn, :new))
+      conn = get(conn, Routes.role_path(conn, :new, 1))
       assert html_response(conn, 200) =~ "New Role"
       assert html_response(conn, 200) =~ "Actors"
       assert html_response(conn, 200) =~ "<select"

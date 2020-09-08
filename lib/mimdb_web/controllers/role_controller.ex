@@ -9,8 +9,8 @@ defmodule MimdbWeb.RoleController do
     render(conn, "index.html", roles: roles)
   end
 
-  def new(conn, _params) do
-    changeset = Movies.change_role(%Role{})
+  def new(conn, params) do
+    changeset = Movies.change_role(%Role{ movie_id: params["id"]})
     actors = Movies.list_actors()
     render(conn, "new.html", changeset: changeset, actors: actors)
   end
