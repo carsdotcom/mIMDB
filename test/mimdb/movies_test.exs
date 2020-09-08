@@ -146,6 +146,7 @@ defmodule Mimdb.MoviesTest do
 
     test "list_movies/0 returns all movies" do
       movie = movie_fixture()
+      movie = Movies.get_only_movie(movie.id)
       assert Movies.list_movies() == [movie]
     end
 

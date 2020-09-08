@@ -16,7 +16,14 @@
   <div>List of Genres</div>
   <%= for genre <- @genres do %>
     <div>
-      <input name="movie[genres][]" value="<%= genre.id %>" type="checkbox" id="<%= genre.id %>">
+      <%= tag(:input,
+        name: input_name(f, :genres) <> "[]",
+        id: input_id(f, :genres, genre.id),
+        type: "checkbox",
+        value: genre.id,
+        checked: is_genre_selected(genre, @changeset)
+        )
+      %>
       <%= genre.name %>
     </div>
   <% end %>
