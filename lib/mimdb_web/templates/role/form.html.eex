@@ -1,0 +1,16 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :character %>
+  <%= text_input f, :character %>
+  <%= error_tag f, :character %>
+Actors
+<%= select f, :actor, actor_select_options(@actors) %>
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

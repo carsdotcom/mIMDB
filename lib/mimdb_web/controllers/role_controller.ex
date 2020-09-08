@@ -1,0 +1,66 @@
+defmodule MimdbWeb.RoleController do
+  use MimdbWeb, :controller
+
+  alias Mimdb.Movies
+  alias Mimdb.Movies.Role
+
+  def index(conn, _params) do
+    roles = Movies.list_roles()
+    render(conn, "index.html", roles: roles)
+  end
+
+  def new(conn, _params) do
+    changeset = Movies.change_role(%Role{})
+    actors = Movies.list_actors()
+    render(conn, "new.html", changeset: changeset, actors: actors)
+  end
+
+  def create(conn, %{"role" => role_params}) do
+    case Movies.create_role(role_params) do
+      {:ok, role} ->
+        conn
+        |> put_flash(:info, "Role created successfully.")
+        |> redirect(to: Routes.role_path(conn, :show, role))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        actors = Movies.list_actors()
+        render(conn, "new.html", changeset: changeset, actors: actors)
+    end
+  end
+
+  def show(conn, %{"id" => id}) do
+    role = Movies.get_role!(id)
+    render(conn, "show.html", role: role)
+  end
+
+  def edit(conn, %{"id" => id}) do
+    role = Movies.get_role!(id)
+    changeset = Movies.change_role(role)
+    actors = Movies.list_actors()
+    render(conn, "edit.html", role: role, changeset: changeset, actors: actors)
+  end
+
+  def update(conn, %{"id" => id, "role" => role_params}) do
+    role = Movies.get_role!(id)
+
+    case Movies.update_role(role, role_params) do
+      {:ok, role} ->
+        conn
+        |> put_flash(:info, "Role updated successfully.")
+        |> redirect(to: Routes.role_path(conn, :show, role))
+
+      {:error, %Ecto.Changeset{} = changeset} ->
+        actors = Movies.list_actors()
+        render(conn, "edit.html", role: role, changeset: changeset, actors: actors)
+    end
+  end
+
+  def delete(conn, %{"id" => id}) do
+    role = Movies.get_role!(id)
+    {:ok, _role} = Movies.delete_role(role)
+
+    conn
+    |> put_flash(:info, "Role deleted successfully.")
+    |> redirect(to: Routes.role_path(conn, :index))
+  end
+end
