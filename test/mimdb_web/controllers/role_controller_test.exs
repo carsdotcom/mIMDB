@@ -71,19 +71,6 @@ defmodule MimdbWeb.RoleControllerTest do
     end
   end
 
-  describe "delete role" do
-    setup [:create_role]
-
-    test "deletes chosen role", %{conn: conn, role: role} do
-      conn = delete(conn, Routes.role_path(conn, :delete, role))
-      assert redirected_to(conn) == Routes.role_path(conn, :index)
-
-      assert_error_sent 404, fn ->
-        get(conn, Routes.role_path(conn, :show, role))
-      end
-    end
-  end
-
   defp create_role(_) do
     role = fixture(:role)
     %{role: role}

@@ -17,9 +17,19 @@ defmodule MimdbWeb.MovieControllerTest do
     movie
   end
 
+  def create_actor do
+    {:ok, actor} =  Movies.create_actor(%{name: "Tom Hanks", birthdate: ~D[2010-04-17]})
+    actor
+  end
+
   def create_genre() do
     {:ok, genre} = Movies.create_genre(%{"name" => "Action"})
     genre
+  end
+
+  def create_role(actor, movie, character) do
+    {:ok, role} = Movies.create_role(%{ "character" => character, "actor_id" => actor.id, "movie_id" => movie.id})
+    role
   end
 
   describe "index" do
@@ -66,8 +76,12 @@ defmodule MimdbWeb.MovieControllerTest do
     setup [:create_movie]
 
     test "renders form for editing chosen movie", %{conn: conn, movie: movie} do
+      character = "Forrest Gump"
+      _role = create_role(create_actor(), movie, character)
       conn = get(conn, Routes.movie_path(conn, :edit, movie))
       assert html_response(conn, 200) =~ "Edit Movie"
+      assert html_response(conn, 200) =~ "Roles"
+      assert html_response(conn, 200) =~ character
     end
   end
 
@@ -98,6 +112,24 @@ defmodule MimdbWeb.MovieControllerTest do
         get(conn, Routes.movie_path(conn, :show, movie))
       end
     end
+  end
+
+  describe "delete role in movie edit" do
+    setup [:create_movie]
+
+    test "deletes chosen role", %{conn: conn, movie: movie} do
+      character_a = "Character A"
+      role_a = create_role(create_actor(), movie, character_a)
+      character_b = "Character B"
+      _role_b = create_role(create_actor(), movie, character_b)
+
+      conn = delete(conn, Routes.role_path(conn, :delete, role_a ))
+      assert redirected_to(conn) == Routes.movie_path(conn, :edit, movie)
+      assert_error_sent 404, fn ->
+        get(conn, Routes.role_path(conn, :show, role_a))
+      end
+    end
+
   end
 
   defp create_movie(_) do

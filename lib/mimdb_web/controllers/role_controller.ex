@@ -57,10 +57,9 @@ defmodule MimdbWeb.RoleController do
 
   def delete(conn, %{"id" => id}) do
     role = Movies.get_role!(id)
-    {:ok, _role} = Movies.delete_role(role)
-
+    {:ok, _} = Movies.delete_role(role)
     conn
     |> put_flash(:info, "Role deleted successfully.")
-    |> redirect(to: Routes.role_path(conn, :index))
+    |> redirect(to: Routes.movie_path(conn, :edit, role.movie_id))
   end
 end
