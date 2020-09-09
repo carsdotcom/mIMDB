@@ -38,7 +38,7 @@ defmodule MimdbWeb.MovieController do
     movie = Movies.get_movie!(id)
     changeset = Movies.change_movie(movie)
     genres = Movies.list_genres()
-    roles = Movies.list_roles()
+    roles = Movies.list_roles(id)
     render(conn, "edit.html", movie: movie, changeset: changeset, genres: genres, roles: roles)
   end
 

@@ -331,8 +331,10 @@ defmodule Mimdb.Movies do
       [%Role{}, ...]
 
   """
-  def list_roles do
-    Repo.all(Role)
+  def list_roles, do: Repo.all(Role)
+
+  def list_roles(movie_id) do
+    Repo.all(from(r in Role, where: r.movie_id == ^movie_id ))
   end
 
   @doc """
