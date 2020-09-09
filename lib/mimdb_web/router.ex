@@ -25,6 +25,7 @@ defmodule MimdbWeb.Router do
     resources "/roles", RoleController, except: [:new]
     get "/movies/:id/roles/new", RoleController, :new
     get "/", MovieController, :index
+    post "/movies/:movie_id/rate", MovieController, :rate
   end
 
   # Other scopes may use custom stacks.

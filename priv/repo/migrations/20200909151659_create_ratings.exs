@@ -12,5 +12,6 @@ defmodule Mimdb.Repo.Migrations.CreateRatings do
 
     create index(:ratings, [:user_id])
     create index(:ratings, [:movie_id])
+    create unique_index(:ratings, [:user_id, :movie_id])
   end
 end

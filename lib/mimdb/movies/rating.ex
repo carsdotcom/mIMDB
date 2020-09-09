@@ -13,7 +13,8 @@ defmodule Mimdb.Movies.Rating do
   @doc false
   def changeset(rating, attrs) do
     rating
-    |> cast(attrs, [:value])
+    |> cast(attrs, [:value, :user_id, :movie_id])
     |> validate_required([:value])
+    |> unique_constraint([:user_id, :movie_id])
   end
 end

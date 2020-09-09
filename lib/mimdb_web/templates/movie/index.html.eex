@@ -5,6 +5,7 @@
     <tr>
       <th>Title</th>
       <th>Release</th>
+      <th>Rating</th>
 
       <th></th>
     </tr>
@@ -21,6 +22,12 @@ Filter by Genre
     <tr>
       <td><%= movie.title %></td>
       <td><%= movie.release %></td>
+      <td>
+        <%= form_for @conn, Routes.movie_path(@conn, :rate, movie), fn f -> %>
+          <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5] %>
+          <%= submit "Rate" %>
+        <% end %>
+      </td>
 
       <td>
         <span><%= link "Show", to: Routes.movie_path(@conn, :show, movie) %></span>

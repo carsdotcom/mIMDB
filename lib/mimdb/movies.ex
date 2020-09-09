@@ -7,6 +7,7 @@ defmodule Mimdb.Movies do
   alias Mimdb.Repo
   alias Mimdb.Movies.Genre
   alias Mimdb.Movies.Actor
+  alias Mimdb.Movies.Rating
 
   @doc """
   Returns the list of genres.
@@ -205,12 +206,26 @@ defmodule Mimdb.Movies do
       [%Movie{}, ...]
 
   """
-  def list_movies(params) do
+  def list_movies(user_id) do
+    query_sorted_movies(user_id)
+    |> Repo.all()
+  end
+
+  def list_movies(params) do #TODO: need to combine list_movies
     search_genre_term = get_in(params, ["query"])
 
     search_by_genre(search_genre_term)
     |> Repo.all()
   end
+
+  defp query_sorted_movies(user_id) do
+    from(m in Movie,
+      join: ratings in assoc(m, :ratings),
+      where: m.id == ratings.movie_id,
+      where: ratings.user_id == ^user_id,
+      select: %Movie{ title: m.title, release: m.release, id: m.id,
+        ratings: %Rating{ value: ratings.value} },
+      order_by: [asc: m.title])
 
   def search_by_genre(nil) do
     from(m in Movie, order_by: [asc: m.title])
@@ -433,5 +448,21 @@ defmodule Mimdb.Movies do
   """
   def change_role(%Role{} = role, attrs \\ %{}) do
     Role.changeset(role, attrs)
+  end
+
+  def rate_movie(params, user) do
+
+    %Rating{}
+    |> Rating.changeset(%{movie_id: params["movie_id"], value: params["rating"], user_id: user.id  })
+    |> Repo.insert()
+  end
+
+  def get_rating!(user_id, movie_id) do
+    Rating
+    |> Repo.get_by!([user_id: user_id, movie_id: movie_id] )
+  end
+
+  def delete_rating(%Rating{} = rating) do
+    Repo.delete(rating)
   end
 end

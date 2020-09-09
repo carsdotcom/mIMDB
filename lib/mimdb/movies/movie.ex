@@ -2,17 +2,17 @@ defmodule Mimdb.Movies.Movie do
   use Ecto.Schema
   import Ecto.Changeset
   alias Mimdb.Movies.Genre
+  alias Mimdb.Movies.Rating
   alias Mimdb.Repo
 
   schema "movies" do
     field :release, :date
     field :title, :string
-
     many_to_many :genres, Genre,
       join_through: Mimdb.Movies.MoviesGenres,
       on_replace: :delete,
       on_delete: :delete_all
-
+    has_many :ratings, Rating
     timestamps()
   end
 
