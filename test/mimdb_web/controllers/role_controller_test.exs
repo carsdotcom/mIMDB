@@ -54,10 +54,7 @@ defmodule MimdbWeb.RoleControllerTest do
         )
 
       assert %{id: id} = redirected_params(conn)
-      assert redirected_to(conn) == Routes.role_path(conn, :show, id)
-
-      conn = get(conn, Routes.role_path(conn, :show, id))
-      assert html_response(conn, 200) =~ "Show Role"
+      assert redirected_to(conn) == Routes.movie_path(conn, :edit, movie.id)
     end
 
     test "renders errors when data is invalid", %{conn: conn} do

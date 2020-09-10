@@ -18,9 +18,10 @@ defmodule MimdbWeb.RoleController do
   def create(conn, %{"role" => role_params}) do
     case Movies.create_role(role_params) do
       {:ok, role} ->
+        movie = Movies.get_movie!(role.movie_id)
         conn
         |> put_flash(:info, "Role created successfully.")
-        |> redirect(to: Routes.role_path(conn, :show, role))
+        |> redirect(to: Routes.movie_path(conn, :edit, movie))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         actors = Movies.list_actors()
