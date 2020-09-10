@@ -333,7 +333,7 @@ defmodule Mimdb.Movies do
   """
   def list_roles, do: Repo.all(Role)
 
-  def list_roles(movie_id) do
+  def list_roles_for_movie_with_id(movie_id) do
     Repo.all(from(r in Role, where: r.movie_id == ^movie_id ))
   end
 
