@@ -226,6 +226,7 @@ defmodule Mimdb.Movies do
       select: %Movie{ title: m.title, release: m.release, id: m.id,
         ratings: %Rating{ value: ratings.value} },
       order_by: [asc: m.title])
+  end
 
   def search_by_genre(nil) do
     from(m in Movie, order_by: [asc: m.title])
