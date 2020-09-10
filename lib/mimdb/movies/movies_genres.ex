@@ -10,9 +10,8 @@ defmodule Mimdb.Movies.MoviesGenres do
   end
 
   @doc false
-  def changeset(movies_genres, attrs) do
+  def changeset(movies_genres, _attrs) do
     movies_genres
-    |> cast(attrs, [:movie_id, :genre_id])
     |> validate_required([:movie_id, :genre_id])
   end
 end
