@@ -42,9 +42,6 @@ defmodule MimdbWeb.MovieController do
 
   def update(conn, %{"id" => id, "movie" => movie_params}) do
     movie = Movies.get_movie!(id)
-    genres = Movies.list_genres()
-    roles = Movies.list_roles()
-
     case Movies.update_movie(movie, movie_params) do
       {:ok, movie} ->
         conn
@@ -52,7 +49,8 @@ defmodule MimdbWeb.MovieController do
         |> redirect(to: Routes.movie_path(conn, :show, movie))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", movie: movie, changeset: changeset, genres: genres, roles: roles)
+        render(conn, "edit.html", movie: movie, changeset: changeset,
+           genres: Movies.list_genres(), roles: Movies.list_roles())
     end
   end
 
