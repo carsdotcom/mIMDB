@@ -222,6 +222,7 @@ defmodule Mimdb.Movies do
 
   def search_by_genre(search_genre_term) do
     search_genre_term = String.to_integer(search_genre_term)
+
     from m in Movie,
       left_join: g in assoc(m, :genres),
       select: m,
@@ -266,6 +267,7 @@ defmodule Mimdb.Movies do
   """
   def create_movie(attrs \\ %{}) do
     genres = get_genres(attrs["genres"])
+
     %Movie{}
     |> Movie.changeset(attrs, genres)
     |> Repo.insert()
@@ -300,6 +302,7 @@ defmodule Mimdb.Movies do
   """
   def update_movie(%Movie{} = movie, attrs) do
     genres = get_genres(attrs["genres"])
+
     movie
     |> Movie.changeset(attrs, genres)
     |> Repo.update()
@@ -348,7 +351,7 @@ defmodule Mimdb.Movies do
   def list_roles, do: Repo.all(Role)
 
   def list_roles_for_movie_with_id(movie_id) do
-    Repo.all(from(r in Role, where: r.movie_id == ^movie_id ))
+    Repo.all(from(r in Role, where: r.movie_id == ^movie_id))
   end
 
   @doc """

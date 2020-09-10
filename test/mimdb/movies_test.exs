@@ -145,7 +145,13 @@ defmodule Mimdb.MoviesTest do
     end
 
     def create_movie_genre(actor, movie, character) do
-      {:ok, role} = Movies.create_role(%{"character" => character, "actor_id" => actor.id, "movie_id" => movie.id})
+      {:ok, role} =
+        Movies.create_role(%{
+          "character" => character,
+          "actor_id" => actor.id,
+          "movie_id" => movie.id
+        })
+
       role
     end
 
@@ -217,9 +223,12 @@ defmodule Mimdb.MoviesTest do
     @update_attrs %{character: "some updated character"}
     @invalid_attrs %{character: nil}
 
-    def role_fixture(attrs \\ %{}) do
+    def role_fixture do
+      actor = actor_fixture()
+      movie = movie_fixture()
+
       {:ok, role} =
-        attrs
+        %{actor_id: actor.id, movie_id: movie.id}
         |> Enum.into(@valid_attrs)
         |> Movies.create_role()
 
@@ -237,7 +246,14 @@ defmodule Mimdb.MoviesTest do
     end
 
     test "create_role/1 with valid data creates a role" do
-      assert {:ok, %Role{} = role} = Movies.create_role(@valid_attrs)
+      actor = actor_fixture()
+      movie = movie_fixture()
+
+      assert {:ok, %Role{} = role} =
+               Movies.create_role(
+                 Map.merge(@valid_attrs, %{actor_id: actor.id, movie_id: movie.id})
+               )
+
       assert role.character == "some character"
     end
 

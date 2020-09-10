@@ -8,6 +8,5 @@ defmodule Mimdb.Repo.Migrations.CreateMovies do
 
       timestamps()
     end
-
   end
 end

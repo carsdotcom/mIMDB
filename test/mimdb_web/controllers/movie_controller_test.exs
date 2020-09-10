@@ -10,15 +10,16 @@ defmodule MimdbWeb.MovieControllerTest do
   def fixture(:movie) do
     genre = create_genre("Action")
 
-    {:ok, movie} = @create_attrs
-    |> Map.put_new("genres", ["#{genre.id}"])
-    |> Movies.create_movie()
+    {:ok, movie} =
+      @create_attrs
+      |> Map.put_new("genres", ["#{genre.id}"])
+      |> Movies.create_movie()
 
     movie
   end
 
   def create_actor do
-    {:ok, actor} =  Movies.create_actor(%{name: "Tom Hanks", birthdate: ~D[2010-04-17]})
+    {:ok, actor} = Movies.create_actor(%{name: "Tom Hanks", birthdate: ~D[2010-04-17]})
     actor
   end
 
@@ -28,7 +29,13 @@ defmodule MimdbWeb.MovieControllerTest do
   end
 
   def create_role(actor, movie, character) do
-    {:ok, role} = Movies.create_role(%{ "character" => character, "actor_id" => actor.id, "movie_id" => movie.id})
+    {:ok, role} =
+      Movies.create_role(%{
+        "character" => character,
+        "actor_id" => actor.id,
+        "movie_id" => movie.id
+      })
+
     role
   end
 
@@ -85,9 +92,6 @@ defmodule MimdbWeb.MovieControllerTest do
       assert html_response(conn, 200) =~ "Roles"
       assert html_response(conn, 200) =~ character
     end
-
-
-
   end
 
   describe "update movie" do
@@ -113,6 +117,7 @@ defmodule MimdbWeb.MovieControllerTest do
     test "deletes chosen movie", %{conn: conn, movie: movie} do
       conn = delete(conn, Routes.movie_path(conn, :delete, movie))
       assert redirected_to(conn) == Routes.movie_path(conn, :index)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.movie_path(conn, :show, movie))
       end
@@ -128,13 +133,13 @@ defmodule MimdbWeb.MovieControllerTest do
       character_b = "Character B"
       _role_b = create_role(create_actor(), movie, character_b)
 
-      conn = delete(conn, Routes.role_path(conn, :delete, role_a ))
+      conn = delete(conn, Routes.role_path(conn, :delete, role_a))
       assert redirected_to(conn) == Routes.movie_path(conn, :edit, movie)
+
       assert_error_sent 404, fn ->
         get(conn, Routes.role_path(conn, :show, role_a))
       end
     end
-
   end
 
   defp create_movie(_) do

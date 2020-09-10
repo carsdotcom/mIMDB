@@ -8,7 +8,7 @@ defmodule MimdbWeb.MovieView do
   end
 
   def sort_movies(movies) do
-    Enum.sort_by(movies, &(&1.title))
+    Enum.sort_by(movies, & &1.title)
   end
 
   def genre_select_options(genres) do

@@ -7,8 +7,23 @@ defmodule MimdbWeb.RoleControllerTest do
   @update_attrs %{character: "some updated character"}
   @invalid_attrs %{character: nil}
 
+  def fixture(:actor) do
+    {:ok, actor} = Movies.create_actor(%{birthdate: ~D[2010-04-17], name: "some name"})
+    actor
+  end
+
+  def fixture(:movie) do
+    {:ok, movie} = Movies.create_movie(%{"release" => ~D[2010-04-17], "title" => "some title"})
+    movie
+  end
+
   def fixture(:role) do
-    {:ok, role} = Movies.create_role(@create_attrs)
+    actor = fixture(:actor)
+    movie = fixture(:movie)
+
+    {:ok, role} =
+      Movies.create_role(Map.merge(@create_attrs, %{actor_id: actor.id, movie_id: movie.id}))
+
     role
   end
 
@@ -30,7 +45,13 @@ defmodule MimdbWeb.RoleControllerTest do
 
   describe "create role" do
     test "redirects to show when data is valid", %{conn: conn} do
-      conn = post(conn, Routes.role_path(conn, :create), role: @create_attrs)
+      actor = fixture(:actor)
+      movie = fixture(:movie)
+
+      conn =
+        post(conn, Routes.role_path(conn, :create),
+          role: Map.merge(@create_attrs, %{actor_id: actor.id, movie_id: movie.id})
+        )
 
       assert %{id: id} = redirected_params(conn)
       assert redirected_to(conn) == Routes.role_path(conn, :show, id)

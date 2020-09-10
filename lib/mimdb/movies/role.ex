@@ -14,6 +14,6 @@ defmodule Mimdb.Movies.Role do
   def changeset(role, attrs) do
     role
     |> cast(attrs, [:character, :actor_id, :movie_id])
-    |> validate_required([:character])
+    |> validate_required([:character, :actor_id, :movie_id])
   end
 end

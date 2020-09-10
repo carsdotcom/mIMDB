@@ -7,7 +7,11 @@ defmodule Mimdb.Movies.Movie do
   schema "movies" do
     field :release, :date
     field :title, :string
-    many_to_many :genres, Genre, join_through: Mimdb.Movies.MoviesGenres, on_replace: :delete, on_delete: :delete_all
+
+    many_to_many :genres, Genre,
+      join_through: Mimdb.Movies.MoviesGenres,
+      on_replace: :delete,
+      on_delete: :delete_all
 
     timestamps()
   end
@@ -20,5 +24,4 @@ defmodule Mimdb.Movies.Movie do
     |> put_assoc(:genres, genres)
     |> validate_required([:title, :release])
   end
-
 end

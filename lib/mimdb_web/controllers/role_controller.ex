@@ -10,7 +10,7 @@ defmodule MimdbWeb.RoleController do
   end
 
   def new(conn, params) do
-    changeset = Movies.change_role(%Role{ movie_id: params["id"]})
+    changeset = Movies.change_role(%Role{movie_id: params["id"]})
     actors = Movies.list_actors()
     render(conn, "new.html", changeset: changeset, actors: actors)
   end
@@ -58,6 +58,7 @@ defmodule MimdbWeb.RoleController do
   def delete(conn, %{"id" => id}) do
     role = Movies.get_role!(id)
     {:ok, _} = Movies.delete_role(role)
+
     conn
     |> put_flash(:info, "Role deleted successfully.")
     |> redirect(to: Routes.movie_path(conn, :edit, role.movie_id))
