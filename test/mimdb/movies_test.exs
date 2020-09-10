@@ -131,7 +131,7 @@ defmodule Mimdb.MoviesTest do
   describe "movies" do
     alias Mimdb.Movies.Movie
 
-    @valid_attrs %{release: ~D[2010-04-17], title: "some title"}
+    @valid_attrs %{"release" => ~D[2010-04-17], "title" => "some title"}
     @update_attrs %{release: ~D[2011-05-18], title: "some updated title"}
     @invalid_attrs %{release: nil, title: nil}
 
@@ -144,10 +144,30 @@ defmodule Mimdb.MoviesTest do
       movie
     end
 
-    test "list_movies/0 returns all movies" do
+    def create_movie_genre(actor, movie, character) do
+      {:ok, role} = Movies.create_role(%{"character" => character, "actor_id" => actor.id, "movie_id" => movie.id})
+      role
+    end
+
+    test "list_movies/1 returns all movies" do
       movie = movie_fixture()
       movie = Movies.get_only_movie(movie.id)
-      assert Movies.list_movies() == [movie]
+      assert Movies.list_movies(%{}) == [movie]
+    end
+
+    test "list_movies/1 with All query returns all movies" do
+      movie = movie_fixture()
+      movie = Movies.get_only_movie(movie.id)
+      assert Movies.list_movies(%{"query" => "0"}) == [movie]
+    end
+
+    test "list_movies/1 with a genre_id as param returns filtered movies list by genre" do
+      action = genre_fixture(%{name: "Action"})
+      comedy = genre_fixture(%{name: "Comedy"})
+      action_movie = movie_fixture(%{"genres" => ["#{action.id}"]})
+      _comedy_movie = movie_fixture(%{"genres" => ["#{comedy.id}"]})
+      created_movie = Movies.get_only_movie(action_movie.id)
+      assert Movies.list_movies(%{"query" => "#{action.id}"}) == [created_movie]
     end
 
     test "get_movie!/1 returns the movie with given id" do

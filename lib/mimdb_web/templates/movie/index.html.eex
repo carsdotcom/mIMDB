@@ -10,6 +10,13 @@
     </tr>
   </thead>
   <tbody>
+
+Filter by Genre
+<%= form_for @conn, Routes.movie_path(@conn, :index), [method: :get], fn f -> %>
+  <%= select f, :query, genre_select_options(@genres), style: "margin:10px" %>
+  <%= submit "Search" %>
+<% end %>
+
 <%= for movie <- @movies do %>
     <tr>
       <td><%= movie.title %></td>
