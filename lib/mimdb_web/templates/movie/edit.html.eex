@@ -1,0 +1,13 @@
+<h1>Edit Movie</h1>
+
+<%= render "form.html", Map.put(assigns, :action, Routes.movie_path(@conn, :update, @movie)) %>
+
+<div>Roles</div>
+<ul>
+<%= for role <- @roles do %>
+  <li><%= role.character %>
+    <span><%= link "Delete", to: Routes.role_path(@conn, :delete, role), method: :delete, data: [confirm: "Are you sure?"] %></span></li>
+<%end%>
+</ul>
+<span><%= link "Add Role", to: Routes.role_path(@conn, :new, @movie) %></span>
+<span><%= link "Back", to: Routes.movie_path(@conn, :index) %></span>

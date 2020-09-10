@@ -1,0 +1,23 @@
+<h1>Listing Roles</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Character</th>
+
+      <th></th>
+    </tr>
+  </thead>
+  <tbody>
+<%= for role <- @roles do %>
+    <tr>
+      <td><%= role.character %></td>
+
+      <td>
+        <span><%= link "Show", to: Routes.role_path(@conn, :show, role) %></span>
+        <span><%= link "Edit", to: Routes.role_path(@conn, :edit, role) %></span>
+      </td>
+    </tr>
+<% end %>
+  </tbody>
+</table>

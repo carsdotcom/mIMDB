@@ -1,0 +1,18 @@
+<h1>Show Movie</h1>
+
+<ul>
+
+  <li>
+    <strong>Title:</strong>
+    <%= @movie.title %>
+  </li>
+
+  <li>
+    <strong>Release:</strong>
+    <%= @movie.release %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.movie_path(@conn, :edit, @movie) %></span>
+<span><%= link "Back", to: Routes.movie_path(@conn, :index) %></span>

@@ -1,0 +1,33 @@
+<%= form_for @changeset, @action, fn f -> %>
+  <%= if @changeset.action do %>
+    <div class="alert alert-danger">
+      <p>Oops, something went wrong! Please check the errors below.</p>
+    </div>
+  <% end %>
+
+  <%= label f, :title %>
+  <%= text_input f, :title %>
+  <%= error_tag f, :title %>
+
+  <%= label f, :release %>
+  <%= date_select f, :release %>
+  <%= error_tag f, :release %>
+
+  <div>List of Genres</div>
+  <%= for genre <- @genres do %>
+    <div>
+      <%= tag(:input,
+        name: input_name(f, :genres) <> "[]",
+        id: input_id(f, :genres, genre.id),
+        type: "checkbox",
+        value: genre.id,
+        checked: is_genre_selected(genre, @changeset)
+        )
+      %>
+      <%= genre.name %>
+    </div>
+  <% end %>
+  <div>
+    <%= submit "Save" %>
+  </div>
+<% end %>

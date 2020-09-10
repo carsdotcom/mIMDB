@@ -1,0 +1,13 @@
+<h1>Show Role</h1>
+
+<ul>
+
+  <li>
+    <strong>Character:</strong>
+    <%= @role.character %>
+  </li>
+
+</ul>
+
+<span><%= link "Edit", to: Routes.role_path(@conn, :edit, @role) %></span>
+<span><%= link "Back", to: Routes.role_path(@conn, :index) %></span>

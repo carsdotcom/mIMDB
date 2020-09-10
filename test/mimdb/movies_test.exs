@@ -127,4 +127,161 @@ defmodule Mimdb.MoviesTest do
       assert %Ecto.Changeset{} = Movies.change_actor(actor)
     end
   end
+
+  describe "movies" do
+    alias Mimdb.Movies.Movie
+
+    @valid_attrs %{"release" => ~D[2010-04-17], "title" => "some title"}
+    @update_attrs %{release: ~D[2011-05-18], title: "some updated title"}
+    @invalid_attrs %{release: nil, title: nil}
+
+    def movie_fixture(attrs \\ %{}) do
+      {:ok, movie} =
+        attrs
+        |> Enum.into(@valid_attrs)
+        |> Movies.create_movie()
+
+      movie
+    end
+
+    def create_movie_genre(actor, movie, character) do
+      {:ok, role} =
+        Movies.create_role(%{
+          "character" => character,
+          "actor_id" => actor.id,
+          "movie_id" => movie.id
+        })
+
+      role
+    end
+
+    test "list_movies/1 returns all movies" do
+      movie = movie_fixture()
+      movie = Movies.get_only_movie(movie.id)
+      assert Movies.list_movies(%{}) == [movie]
+    end
+
+    test "list_movies/1 with All query returns all movies" do
+      movie = movie_fixture()
+      movie = Movies.get_only_movie(movie.id)
+      assert Movies.list_movies(%{"query" => "0"}) == [movie]
+    end
+
+    test "list_movies/1 with a genre_id as param returns filtered movies list by genre" do
+      action = genre_fixture(%{name: "Action"})
+      comedy = genre_fixture(%{name: "Comedy"})
+      action_movie = movie_fixture(%{"genres" => ["#{action.id}"]})
+      _comedy_movie = movie_fixture(%{"genres" => ["#{comedy.id}"]})
+      created_movie = Movies.get_only_movie(action_movie.id)
+      assert Movies.list_movies(%{"query" => "#{action.id}"}) == [created_movie]
+    end
+
+    test "get_movie!/1 returns the movie with given id" do
+      movie = movie_fixture()
+      assert Movies.get_movie!(movie.id) == movie
+    end
+
+    test "create_movie/1 with valid data creates a movie" do
+      assert {:ok, %Movie{} = movie} = Movies.create_movie(@valid_attrs)
+      assert movie.release == ~D[2010-04-17]
+      assert movie.title == "some title"
+    end
+
+    test "create_movie/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Movies.create_movie(@invalid_attrs)
+    end
+
+    test "update_movie/2 with valid data updates the movie" do
+      movie = movie_fixture()
+      assert {:ok, %Movie{} = movie} = Movies.update_movie(movie, @update_attrs)
+      assert movie.release == ~D[2011-05-18]
+      assert movie.title == "some updated title"
+    end
+
+    test "update_movie/2 with invalid data returns error changeset" do
+      movie = movie_fixture()
+      assert {:error, %Ecto.Changeset{}} = Movies.update_movie(movie, @invalid_attrs)
+      assert movie == Movies.get_movie!(movie.id)
+    end
+
+    test "delete_movie/1 deletes the movie" do
+      movie = movie_fixture()
+      assert {:ok, %Movie{}} = Movies.delete_movie(movie)
+      assert_raise Ecto.NoResultsError, fn -> Movies.get_movie!(movie.id) end
+    end
+
+    test "change_movie/1 returns a movie changeset" do
+      movie = movie_fixture()
+      assert %Ecto.Changeset{} = Movies.change_movie(movie)
+    end
+  end
+
+  describe "roles" do
+    alias Mimdb.Movies.Role
+
+    @valid_attrs %{character: "some character"}
+    @update_attrs %{character: "some updated character"}
+    @invalid_attrs %{character: nil}
+
+    def role_fixture do
+      actor = actor_fixture()
+      movie = movie_fixture()
+
+      {:ok, role} =
+        %{actor_id: actor.id, movie_id: movie.id}
+        |> Enum.into(@valid_attrs)
+        |> Movies.create_role()
+
+      role
+    end
+
+    test "list_roles/0 returns all roles" do
+      role = role_fixture()
+      assert Movies.list_roles() == [role]
+    end
+
+    test "get_role!/1 returns the role with given id" do
+      role = role_fixture()
+      assert Movies.get_role!(role.id) == role
+    end
+
+    test "create_role/1 with valid data creates a role" do
+      actor = actor_fixture()
+      movie = movie_fixture()
+
+      assert {:ok, %Role{} = role} =
+               Movies.create_role(
+                 Map.merge(@valid_attrs, %{actor_id: actor.id, movie_id: movie.id})
+               )
+
+      assert role.character == "some character"
+    end
+
+    test "create_role/1 with invalid data returns error changeset" do
+      assert {:error, %Ecto.Changeset{}} = Movies.create_role(@invalid_attrs)
+    end
+
+    test "update_role/2 with valid data updates the role" do
+      role = role_fixture()
+      assert {:ok, %Role{} = role} = Movies.update_role(role, @update_attrs)
+      assert role.character == "some updated character"
+    end
+
+    test "update_role/2 with invalid data returns error changeset" do
+      role = role_fixture()
+      assert {:error, %Ecto.Changeset{}} = Movies.update_role(role, @invalid_attrs)
+      assert role == Movies.get_role!(role.id)
+    end
+
+    test "delete_role/1 deletes the role" do
+      role = role_fixture()
+      assert {:ok, %Role{}} = Movies.delete_role(role)
+      assert_raise Ecto.NoResultsError, fn -> Movies.get_role!(role.id) end
+    end
+
+    test "change_role/1 returns a role changeset" do
+      role = role_fixture()
+      assert %Ecto.Changeset{} = Movies.change_role(role)
+    end
+  end
 end
