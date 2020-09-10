@@ -205,13 +205,27 @@ defmodule Mimdb.Movies do
       [%Movie{}, ...]
 
   """
-  def list_movies do
-    query_sorted_movies()
+  def list_movies(params) do
+    search_genre_term = get_in(params, ["query"])
+
+    search_by_genre(search_genre_term)
     |> Repo.all()
   end
 
-  defp query_sorted_movies() do
+  def search_by_genre(nil) do
     from(m in Movie, order_by: [asc: m.title])
+  end
+
+  def search_by_genre("0") do
+    from(m in Movie, order_by: [asc: m.title])
+  end
+
+  def search_by_genre(search_genre_term) do
+    search_genre_term = String.to_integer(search_genre_term)
+    from m in Movie,
+      left_join: g in assoc(m, :genres),
+      select: m,
+      where: g.id == ^search_genre_term
   end
 
   @doc """

@@ -4,9 +4,9 @@ defmodule MimdbWeb.MovieController do
   alias Mimdb.Movies
   alias Mimdb.Movies.Movie
 
-  def index(conn, _params) do
-    movies = Movies.list_movies()
-    render(conn, "index.html", movies: movies)
+  def index(conn, params) do
+    movies = Movies.list_movies(params)
+    render(conn, "index.html", movies: movies, genres: Movies.list_genres())
   end
 
   def new(conn, _params) do

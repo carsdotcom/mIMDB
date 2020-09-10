@@ -36,6 +36,8 @@ defmodule MimdbWeb.MovieControllerTest do
     test "lists all movies", %{conn: conn} do
       conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Movies"
+      assert html_response(conn, 200) =~ "Filter by Genre"
+      # assert html_response(conn, 200) =~ "<select id=\"movie_genre_id\""
     end
 
     test "lists all movies sorted by name", %{conn: conn} do
