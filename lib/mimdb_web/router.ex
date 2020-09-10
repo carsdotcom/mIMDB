@@ -20,11 +20,11 @@ defmodule MimdbWeb.Router do
     pipe_through :browser
 
     resources "/actors", ActorController
-    get "/", PageController, :index
     resources "/genres", GenreController, except: [:show]
     resources "/movies", MovieController
     resources "/roles", RoleController, except: [:new]
     get "/movies/:id/roles/new", RoleController, :new
+    get "/", MovieController, :index
   end
 
   # Other scopes may use custom stacks.
