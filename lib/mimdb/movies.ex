@@ -206,15 +206,11 @@ defmodule Mimdb.Movies do
       [%Movie{}, ...]
 
   """
-  def list_movies(user_id) do
-    query_sorted_movies(user_id)
-    |> Repo.all()
-  end
 
-  def list_movies(params) do #TODO: need to combine list_movies
+  def list_movies(params, user_id) do
     search_genre_term = get_in(params, ["query"])
-
-    search_by_genre(search_genre_term)
+    query_sorted_movies(user_id)
+    |> filter_by_genre(search_genre_term)
     |> Repo.all()
   end
 
@@ -229,21 +225,19 @@ defmodule Mimdb.Movies do
       order_by: [asc: m.title])
   end
 
-  def search_by_genre(nil) do
-    from(m in Movie, order_by: [asc: m.title])
+  def filter_by_genre(q,nil) do
+    q
   end
 
-  def search_by_genre("0") do
-    from(m in Movie, order_by: [asc: m.title])
+  def filter_by_genre(q,"0") do
+    q
   end
 
-  def search_by_genre(search_genre_term) do
+  def filter_by_genre(q,search_genre_term) do
     search_genre_term = String.to_integer(search_genre_term)
-
-    from m in Movie,
-      left_join: g in assoc(m, :genres),
-      select: m,
-      where: g.id == ^search_genre_term
+    from m in q,
+         left_join: g in assoc(m, :genres),
+         where: g.id == ^search_genre_term
   end
 
   @doc """

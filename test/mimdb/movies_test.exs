@@ -2,6 +2,11 @@ defmodule Mimdb.MoviesTest do
   use Mimdb.DataCase
 
   alias Mimdb.Movies
+  import Mimdb.UsersFixtures
+
+#  setup %{conn: conn} do
+#    %{user: user_fixture(), conn: conn}
+#  end
 
   describe "genres" do
     alias Mimdb.Movies.Genre
@@ -158,13 +163,15 @@ defmodule Mimdb.MoviesTest do
     test "list_movies/1 returns all movies" do
       movie = movie_fixture()
       movie = Movies.get_only_movie(movie.id)
-      assert Movies.list_movies(%{}) == [movie]
+      user = user_fixture()
+      assert List.first(Movies.list_movies(%{},user.id)).id == movie.id
     end
 
     test "list_movies/1 with All query returns all movies" do
       movie = movie_fixture()
+      user = user_fixture()
       movie = Movies.get_only_movie(movie.id)
-      assert Movies.list_movies(%{"query" => "0"}) == [movie]
+      assert List.first(Movies.list_movies(%{"query" => "0"}, user.id)).id == movie.id
     end
 
     test "list_movies/1 with a genre_id as param returns filtered movies list by genre" do
@@ -172,8 +179,9 @@ defmodule Mimdb.MoviesTest do
       comedy = genre_fixture(%{name: "Comedy"})
       action_movie = movie_fixture(%{"genres" => ["#{action.id}"]})
       _comedy_movie = movie_fixture(%{"genres" => ["#{comedy.id}"]})
+      user = user_fixture()
       created_movie = Movies.get_only_movie(action_movie.id)
-      assert Movies.list_movies(%{"query" => "#{action.id}"}) == [created_movie]
+      assert List.first(Movies.list_movies(%{"query" => "#{action.id}"},user.id)).id == created_movie.id
     end
 
     test "get_movie!/1 returns the movie with given id" do
