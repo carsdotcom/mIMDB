@@ -24,7 +24,7 @@ Filter by Genre
       <td><%= movie.release %></td>
       <td>
         <%= form_for @conn, Routes.movie_path(@conn, :rate, movie), fn f -> %>
-          <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5] %>
+          <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5], selected: rated_value(@current_user, movie), style: "margin-right:10px"  %>
           <%= submit "Rate" %>
         <% end %>
       </td>

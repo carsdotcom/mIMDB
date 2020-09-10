@@ -220,11 +220,12 @@ defmodule Mimdb.Movies do
 
   defp query_sorted_movies(user_id) do
     from(m in Movie,
-      join: ratings in assoc(m, :ratings),
-      where: m.id == ratings.movie_id,
+      left_join: ratings in assoc(m, :ratings),
       where: ratings.user_id == ^user_id,
+      or_where: m.id == ratings.movie_id,
+      or_where: is_nil(ratings.movie_id),
       select: %Movie{ title: m.title, release: m.release, id: m.id,
-        ratings: %Rating{ value: ratings.value} },
+                      ratings: %Rating{ value: ratings.value} },
       order_by: [asc: m.title])
   end
 
@@ -459,8 +460,16 @@ defmodule Mimdb.Movies do
   end
 
   def get_rating!(user_id, movie_id) do
-    Rating
-    |> Repo.get_by!([user_id: user_id, movie_id: movie_id] )
+    query_ratings(user_id, movie_id)
+    |> Repo.all()
+    |> List.first()
+  end
+
+  def query_ratings(user_id, movie_id) do
+    from rating in Rating,
+      where: rating.user_id == ^user_id,
+      where: rating.movie_id == ^movie_id,
+      select: rating
   end
 
   def delete_rating(%Rating{} = rating) do
