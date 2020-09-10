@@ -285,7 +285,7 @@ defmodule Mimdb.Movies do
 
   """
   def update_movie(%Movie{} = movie, attrs) do
-    genres = movie.genres
+    genres = get_genres(attrs["genres"])
     movie
     |> Movie.changeset(attrs, genres)
     |> Repo.update()

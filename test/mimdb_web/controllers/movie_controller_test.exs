@@ -8,7 +8,7 @@ defmodule MimdbWeb.MovieControllerTest do
   @invalid_attrs %{release: nil, title: nil}
 
   def fixture(:movie) do
-    genre = create_genre()
+    genre = create_genre("Action")
 
     {:ok, movie} = @create_attrs
     |> Map.put_new("genres", ["#{genre.id}"])
@@ -22,8 +22,8 @@ defmodule MimdbWeb.MovieControllerTest do
     actor
   end
 
-  def create_genre() do
-    {:ok, genre} = Movies.create_genre(%{"name" => "Action"})
+  def create_genre(name) do
+    {:ok, genre} = Movies.create_genre(%{"name" => name})
     genre
   end
 
@@ -83,6 +83,9 @@ defmodule MimdbWeb.MovieControllerTest do
       assert html_response(conn, 200) =~ "Roles"
       assert html_response(conn, 200) =~ character
     end
+
+
+
   end
 
   describe "update movie" do
