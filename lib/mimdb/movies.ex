@@ -448,9 +448,9 @@ defmodule Mimdb.Movies do
 
   def rate_movie(params, user) do
 
-    %Rating{}
+    %Rating{ }
     |> Rating.changeset(%{movie_id: params["movie_id"], value: params["rating"], user_id: user.id  })
-    |> Repo.insert()
+    |> Repo.insert(on_conflict: [set: [ value: params["rating"] ]], conflict_target: [:user_id, :movie_id])
   end
 
   def get_rating!(user_id, movie_id) do

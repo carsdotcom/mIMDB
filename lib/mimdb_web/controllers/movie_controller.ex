@@ -5,7 +5,6 @@ defmodule MimdbWeb.MovieController do
   alias Mimdb.Movies.Movie
 
   def index(conn, params) do
-    IO.inspect(conn.assigns, label: "Movies#index conn.assigns")
     user = conn.assigns.current_user
     if user do
       movies = Movies.list_movies(params, user.id)

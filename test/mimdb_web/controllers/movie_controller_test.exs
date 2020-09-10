@@ -2,7 +2,6 @@ defmodule MimdbWeb.MovieControllerTest do
   use MimdbWeb.ConnCase
 
   alias Mimdb.Movies
-  import Mimdb.UsersFixtures
 
   @create_attrs %{"release" => ~D[2010-04-17], "title" => "some title"}
   @update_attrs %{"release" => ~D[2011-05-18], "title" => "some updated title"}
