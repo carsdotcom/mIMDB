@@ -21,10 +21,10 @@
                   </div>
                   <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                      <%= link "Movies", to: Routes.movie_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
-                      <%= link "Actors", to: Routes.actor_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
-                      <%= link "Roles", to: Routes.role_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
-                      <%= link "Genres", to: Routes.genre_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Movies", to: Routes.movie_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Actors", to: Routes.actor_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Roles", to: Routes.role_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Genres", to: Routes.genre_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                     </div>
                   </div>
                 </div>
