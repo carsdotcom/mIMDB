@@ -75,7 +75,6 @@ defmodule MimdbWeb.MovieController do
   end
 
   def rate(conn, params) do
-    IO.inspect(params, label: "Movies#rate params")
     Movies.rate_movie(params, conn.assigns.current_user)
 
     conn

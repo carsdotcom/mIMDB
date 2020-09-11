@@ -25,7 +25,6 @@ defmodule MimdbWeb.RoleController do
         |> redirect(to: Routes.movie_path(conn, :edit, movie))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        IO.inspect(changeset)
         actors = Movies.list_actors()
         render(conn, "new.html", changeset: changeset, actors: actors)
     end
