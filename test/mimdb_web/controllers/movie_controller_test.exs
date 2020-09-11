@@ -41,6 +41,7 @@ defmodule MimdbWeb.MovieControllerTest do
 
   describe "index" do
     setup [:register_and_log_in_user]
+
     test "lists all movies", %{conn: conn} do
       conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Movies"
@@ -58,8 +59,7 @@ defmodule MimdbWeb.MovieControllerTest do
     test "renders form", %{conn: conn} do
       {:ok, _genre} = Movies.create_genre(%{name: "some name"})
       conn = get(conn, Routes.movie_path(conn, :new))
-      assert html_response(conn, 200) =~ "New Movie"
-      assert html_response(conn, 200) =~ "List of Genres"
+      assert html_response(conn, 200) =~ "This screen allows for the creation"
       assert html_response(conn, 200) =~ "some name"
       assert html_response(conn, 200) =~ "type=\"checkbox\""
     end
@@ -78,7 +78,7 @@ defmodule MimdbWeb.MovieControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn} do
       conn = post(conn, Routes.movie_path(conn, :create), movie: @invalid_attrs)
-      assert html_response(conn, 200) =~ "New Movie"
+      assert html_response(conn, 200) =~ "This screen allows for the creation"
     end
   end
 
@@ -89,7 +89,7 @@ defmodule MimdbWeb.MovieControllerTest do
       character = "Forrest Gump"
       _role = create_role(create_actor(), movie, character)
       conn = get(conn, Routes.movie_path(conn, :edit, movie))
-      assert html_response(conn, 200) =~ "Edit Movie"
+      assert html_response(conn, 200) =~ "This screen allows for the editing"
       assert html_response(conn, 200) =~ "Roles"
       assert html_response(conn, 200) =~ character
     end
@@ -108,7 +108,7 @@ defmodule MimdbWeb.MovieControllerTest do
 
     test "renders errors when data is invalid", %{conn: conn, movie: movie} do
       conn = put(conn, Routes.movie_path(conn, :update, movie), movie: @invalid_attrs)
-      assert html_response(conn, 200) =~ "Edit Movie"
+      assert html_response(conn, 200) =~ "This screen allows for"
     end
   end
 

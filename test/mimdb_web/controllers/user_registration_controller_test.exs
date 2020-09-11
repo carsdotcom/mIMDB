@@ -36,7 +36,7 @@ defmodule MimdbWeb.UserRegistrationControllerTest do
       conn = get(conn, "/")
       response = html_response(conn, 200)
       assert response =~ name
-      assert response =~ "Log out</a>"
+      assert response =~ "Log out"
     end
 
     test "render errors for invalid data", %{conn: conn} do

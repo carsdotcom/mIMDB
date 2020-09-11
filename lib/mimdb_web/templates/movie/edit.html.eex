@@ -3,7 +3,7 @@
     <div class="md:col-span-1">
       <div class="px-4 sm:px-0">
         <p class="mt-1 text-sm leading-5 text-gray-600">
-          This screen allows for the editing of Movies and thier associated Genres and Roles.
+          This screen allows for the editing of Movies and their associated Genres and Roles.
         </p>
       </div>
     </div>
