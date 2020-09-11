@@ -19,7 +19,7 @@
 
                 <%= label f, :release, class: "mt-2 block text-sm font-medium leading-5 text-gray-700" %>
 
-                <%= date_select f, :release, class: "text-yellow-500", builder: builder() %>
+                <%= date_select f, :release, builder: builder() %>
                 <%= error_tag f, :release %>
               </div>
             </div>

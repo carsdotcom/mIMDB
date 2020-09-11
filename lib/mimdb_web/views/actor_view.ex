@@ -1,6 +1,10 @@
 defmodule MimdbWeb.ActorView do
   use MimdbWeb, :view
 
+  def builder() do
+    MimdbWeb.SharedView.builder()
+  end
+
   def age(actor) do
     date =
       DateTime.now!("America/Chicago")

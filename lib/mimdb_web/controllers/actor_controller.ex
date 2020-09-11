@@ -16,10 +16,10 @@ defmodule MimdbWeb.ActorController do
 
   def create(conn, %{"actor" => actor_params}) do
     case Movies.create_actor(actor_params) do
-      {:ok, actor} ->
+      {:ok, _actor} ->
         conn
         |> put_flash(:info, "Actor created successfully.")
-        |> redirect(to: Routes.actor_path(conn, :show, actor))
+        |> redirect(to: Routes.actor_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset)
@@ -41,10 +41,10 @@ defmodule MimdbWeb.ActorController do
     actor = Movies.get_actor!(id)
 
     case Movies.update_actor(actor, actor_params) do
-      {:ok, actor} ->
+      {:ok, _actor} ->
         conn
         |> put_flash(:info, "Actor updated successfully.")
-        |> redirect(to: Routes.actor_path(conn, :show, actor))
+        |> redirect(to: Routes.actor_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", actor: actor, changeset: changeset)
