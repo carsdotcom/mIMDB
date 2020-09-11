@@ -1,30 +1,40 @@
-<h1>Register</h1>
-
-<%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div>
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <div class="px-4 sm:px-0">
+        <p class="mt-1 text-sm leading-5 text-gray-600">
+          This screen allows for new Users to Register.
+        </p>
+      </div>
     </div>
-  <% end %>
+    <div class="mt-5 md:mt-0 md:col-span-2">
+    <%= form_for @changeset, Routes.user_registration_path(@conn, :create), fn f -> %>
+        <div class="shadow sm:rounded-md sm:overflow-hidden">
+          <div class="px-4 py-5 bg-white sm:p-6">
+            <div class="grid grid-cols-3 gap-6">
+              <div class="col-span-3 sm:col-span-2">
+                <%= label f, :name, class: "block text-sm font-medium leading-5 text-gray-700" %>
+                <%= text_input f, :name, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                <%= error_tag f, :name %>
 
-  <%= label f, :name %>
-  <%= text_input f, :name, required: true %>
-  <%= error_tag f, :name %>
+                <%= label f, :email, class: "block text-sm font-medium leading-5 text-gray-700" %>
+                <%= text_input f, :email, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                <%= error_tag f, :email %>
 
-  <%= label f, :email %>
-  <%= email_input f, :email, required: true %>
-  <%= error_tag f, :email %>
+                <%= label f, :password, class: "block text-sm font-medium leading-5 text-gray-700" %>
+                <%= text_input f, :password, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                <%= error_tag f, :password %>
 
-  <%= label f, :password %>
-  <%= password_input f, :password, required: true %>
-  <%= error_tag f, :password %>
 
-  <div>
-    <%= submit "Register" %>
+              </div>
+            </div>
+              <div class="mt-4 flex flex-row justify-between">
+                <%= submit "Register", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
-
-<p>
-  <%= link "Log in", to: Routes.user_session_path(@conn, :new) %> |
-  <%= link "Forgot your password?", to: Routes.user_reset_password_path(@conn, :new) %>
-</p>
+</div>
