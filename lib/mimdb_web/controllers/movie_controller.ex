@@ -5,8 +5,13 @@ defmodule MimdbWeb.MovieController do
   alias Mimdb.Movies.Movie
 
   def index(conn, params) do
-    movies = Movies.list_movies(params)
-    render(conn, "index.html", movies: movies, genres: Movies.list_genres())
+    user = conn.assigns.current_user
+    if user do
+      movies = Movies.list_movies(params, user.id)
+      render(conn, "index.html", movies: movies, genres: Movies.list_genres())
+    else
+      redirect(conn, to: Routes.user_session_path(conn, :new))
+    end
   end
 
   def new(conn, _params) do
@@ -50,12 +55,8 @@ defmodule MimdbWeb.MovieController do
         |> redirect(to: Routes.movie_path(conn, :show, movie))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html",
-          movie: movie,
-          changeset: changeset,
-          genres: Movies.list_genres(),
-          roles: Movies.list_roles()
-        )
+        render(conn, "edit.html", movie: movie, changeset: changeset,
+           genres: Movies.list_genres(), roles: Movies.list_roles())
     end
   end
 
@@ -65,6 +66,13 @@ defmodule MimdbWeb.MovieController do
 
     conn
     |> put_flash(:info, "Movie deleted successfully.")
+    |> redirect(to: Routes.movie_path(conn, :index))
+  end
+
+  def rate(conn, params) do
+    IO.inspect(params, label: "Movies#rate params")
+    Movies.rate_movie(params,conn.assigns.current_user )
+    conn
     |> redirect(to: Routes.movie_path(conn, :index))
   end
 end

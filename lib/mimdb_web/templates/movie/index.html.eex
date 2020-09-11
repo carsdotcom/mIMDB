@@ -5,6 +5,10 @@
     <tr>
       <th>Title</th>
       <th>Release</th>
+      <th>Rating</th>
+      <th>Average</th>
+      <th></th>
+      <th>Count</th>
 
       <th></th>
     </tr>
@@ -21,6 +25,15 @@ Filter by Genre
     <tr>
       <td><%= movie.title %></td>
       <td><%= movie.release %></td>
+      <td>
+        <%= form_for @conn, Routes.movie_path(@conn, :rate, movie), fn f -> %>
+          <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5], selected: rated_value(@current_user, movie), style: "margin-right:10px"  %>
+          <%= submit "Rate" %>
+        <% end %>
+      </td>
+      <td><%= get_rating_average(movie) %></td>
+      <td>of</td>
+      <td><%= get_rating_count(movie) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.movie_path(@conn, :show, movie) %></span>

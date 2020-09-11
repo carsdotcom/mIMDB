@@ -40,6 +40,7 @@ defmodule MimdbWeb.MovieControllerTest do
   end
 
   describe "index" do
+    setup [:register_and_log_in_user]
     test "lists all movies", %{conn: conn} do
       conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Movies"
