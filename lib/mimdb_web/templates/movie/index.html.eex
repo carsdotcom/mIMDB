@@ -6,17 +6,17 @@
       </h3>
     </div>
     <div class="ml-4 mt-2 flex-shrink-0 mb-2">
-      <div class="flex flex-row"
-          <%= form_for @conn, Routes.movie_path(@conn, :index), [method: :get], fn f -> %>
-            <div class="relative">
-              <%= select f, :query, genre_select_options(@genres), class: "mt-1 block appearance-none w-full border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-300" %>
-              <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
-              </div>
+      <%= form_for @conn, Routes.movie_path(@conn, :index), [method: :get], fn c -> %>
+        <div class="flex flex-row">
+          <div class="relative">
+            <%= select c, :query, genre_select_options(@genres), class: "mt-1 block appearance-none w-full border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-300" %>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
             </div>
-            <%= submit "Filter by Genre", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
-          <% end %>
-      </div>
+          </div>
+          <%= submit "Filter by Genre", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
+        </div>
+      <% end %>
     </div>
   </div>
   <div class="flex flex-col">
