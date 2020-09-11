@@ -10,7 +10,7 @@
   <%= error_tag f, :title %>
 
   <%= label f, :release %>
-  <%= date_select f, :release %>
+  <%= date_select f, :release, year: [options: 1900..2020] %>
   <%= error_tag f, :release %>
 
   <div>List of Genres</div>

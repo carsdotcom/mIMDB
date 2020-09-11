@@ -32,7 +32,8 @@ defmodule MimdbWeb.MovieView do
   end
 
   def get_rating_average(movie) do
-    Movies.rating_average(movie) || 0
+    (Movies.rating_average(movie) || 0.0)
+    |> Float.ceil(1)
   end
 
   def get_rating_count(movie) do

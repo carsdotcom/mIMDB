@@ -11,10 +11,9 @@
   <tbody>
 <%= for genre <- @genres do %>
     <tr>
-      <td><%= genre.name %></td>
+      <td><%= link genre.name, to: Routes.genre_path(@conn, :edit, genre) %></td>
 
       <td>
-        <span><%= link "Edit", to: Routes.genre_path(@conn, :edit, genre) %></span>
         <span><%= link "Delete", to: Routes.genre_path(@conn, :delete, genre), method: :delete, data: [confirm: "Are you sure?"] %></span>
       </td>
     </tr>

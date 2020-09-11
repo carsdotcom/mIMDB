@@ -22,10 +22,10 @@ defmodule MimdbWeb.MovieController do
 
   def create(conn, %{"movie" => movie_params}) do
     case Movies.create_movie(movie_params) do
-      {:ok, movie} ->
+      {:ok, _movie} ->
         conn
         |> put_flash(:info, "Movie created successfully.")
-        |> redirect(to: Routes.movie_path(conn, :show, movie))
+        |> redirect(to: Routes.movie_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "new.html", changeset: changeset, genres: Movies.list_genres())
@@ -52,7 +52,7 @@ defmodule MimdbWeb.MovieController do
       {:ok, movie} ->
         conn
         |> put_flash(:info, "Movie updated successfully.")
-        |> redirect(to: Routes.movie_path(conn, :show, movie))
+        |> redirect(to: Routes.movie_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         render(conn, "edit.html", movie: movie, changeset: changeset,
@@ -70,7 +70,6 @@ defmodule MimdbWeb.MovieController do
   end
 
   def rate(conn, params) do
-    IO.inspect(params, label: "Movies#rate params")
     Movies.rate_movie(params,conn.assigns.current_user )
     conn
     |> redirect(to: Routes.movie_path(conn, :index))
