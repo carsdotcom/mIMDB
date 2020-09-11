@@ -160,6 +160,36 @@ defmodule Mimdb.MoviesTest do
       role
     end
 
+    def create_rating(movie, user, value) do
+      {:ok, rating} =
+        Movies.rate_movie(%{
+          "movie_id" => movie.id,
+          "rating" => value
+        }, user)
+
+      rating
+    end
+
+    test "rating_average/1 average rating for a movie" do
+      user_one = user_fixture()
+      user_two = user_fixture()
+      movie = movie_fixture()
+      create_rating(movie, user_one, 4)
+      create_rating(movie, user_two, 5)
+
+      assert_in_delta Movies.rating_average(movie), 4.5, 0.1
+    end
+
+    test "rating_count/1 count ratings for a movie" do
+      user_one = user_fixture()
+      user_two = user_fixture()
+      movie = movie_fixture()
+      create_rating(movie, user_one, 4)
+      create_rating(movie, user_two, 5)
+
+      assert Movies.rating_count(movie) == 2
+    end
+
     test "list_movies/1 returns all movies" do
       movie = movie_fixture()
       movie = Movies.get_only_movie(movie.id)

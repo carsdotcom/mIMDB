@@ -469,4 +469,18 @@ defmodule Mimdb.Movies do
   def delete_rating(%Rating{} = rating) do
     Repo.delete(rating)
   end
+
+  def rating_average(movie) do
+    from(r in Rating,
+      select: type(avg(r.value), :float),
+      where: r.movie_id == ^movie.id)
+    |> Repo.one()
+  end
+
+  def rating_count(movie) do
+    from(r in Rating,
+      select: count(r),
+      where: r.movie_id == ^movie.id)
+    |> Repo.one()
+  end
 end

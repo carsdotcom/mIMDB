@@ -6,6 +6,9 @@
       <th>Title</th>
       <th>Release</th>
       <th>Rating</th>
+      <th>Average</th>
+      <th></th>
+      <th>Count</th>
 
       <th></th>
     </tr>
@@ -28,6 +31,9 @@ Filter by Genre
           <%= submit "Rate" %>
         <% end %>
       </td>
+      <td><%= get_rating_average(movie) %></td>
+      <td>of</td>
+      <td><%= get_rating_count(movie) %></td>
 
       <td>
         <span><%= link "Show", to: Routes.movie_path(@conn, :show, movie) %></span>
