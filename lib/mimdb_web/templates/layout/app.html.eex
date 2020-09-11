@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
+  <body class="bg-gray-200">
     <div>
       <div class="bg-gray-800 pb-1">
         <nav class="bg-gray-800">
@@ -18,8 +18,6 @@
                 <div class="flex items-center">
                   <div class="flex-shrink-0">
                     <img src="<%= Routes.static_path(@conn, "/images/mimdb_logo.png") %>" alt="mIMDB Logo"/>
-
-
                   </div>
                   <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
@@ -46,7 +44,7 @@
           </div>
         </nav>
       </div>
-      <main class="mt-10">
+      <main class="mt-10 bg-gray-200">
         <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
           <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
           <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
