@@ -68,7 +68,7 @@
                   </td>
                   <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
                     <span><%= link "Edit", to: Routes.movie_path(@conn, :edit, movie), class: "px-2 text-indigo-600 hover:text-indigo-900" %></span>
-                    <span><%= link "Delete", to: Routes.movie_path(@conn, :delete, movie), method: :delete, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %></span>            
+                    <span><%= link "Delete", to: Routes.movie_path(@conn, :delete, movie), method: :delete, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %></span>
                   </td>
                 </tr>
               <% end %>

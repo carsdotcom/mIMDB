@@ -21,7 +21,7 @@
                   </div>
                   <div class="hidden md:block">
                     <div class="ml-10 flex items-baseline space-x-4">
-                      <%= link "Movies", to: Routes.movie_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Movies", to: Routes.movie_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                       <%= link "Actors", to: Routes.actor_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                       <%= link "Roles", to: Routes.role_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                       <%= link "Genres", to: Routes.genre_path(@conn, :index), class: class="px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
@@ -33,8 +33,8 @@
                     <%= if @current_user do %>
                       <%= link "Log out #{@current_user.name}", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                     <% else %>
-                      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700" %>
-                      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "block px-3 py-2 rounded-md text-base font-medium text-white bg-gray-900 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
                     <% end %>
                     </div>
                   </div>

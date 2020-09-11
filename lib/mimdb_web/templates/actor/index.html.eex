@@ -1,30 +1,60 @@
-<h1>Listing Actors</h1>
+<div class="shadow bg-white px-4 py-5 rounded-md border-b border-gray-200 sm:px-6">
+  <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+    <div class="ml-4 mt-2">
+      <h3 class="text-xlg leading-6 font-light text-gray-700">
+        Listing Actors
+      </h3>
+    </div>
+    <div class="ml-4 mt-2 flex-shrink-0 mb-2">
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Name
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Birthdate
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Age
+                </th>
 
-<table>
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Birthdate</th>
-      <th>Age</th>
+                <th class="px-6 py-3 bg-gray-50"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for actor <- @actors do %>
+                <tr class="bg-white">
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                    <%= actor.name %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= actor.birthdate %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= age(actor) %>
+                  </td>
 
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-<%= for actor <- @actors do %>
-    <tr>
-      <td><%= actor.name %></td>
-      <td><%= actor.birthdate %></td>
-      <td><%= age(actor) %></td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                    <span><%= link "Edit", to: Routes.actor_path(@conn, :edit, actor), class: "px-2 text-indigo-600 hover:text-indigo-900" %></span>
+                    <span><%= link "Delete", to: Routes.actor_path(@conn, :delete, actor), method: :delete, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %></span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <%= link "New Actor", to: Routes.actor_path(@conn, :new), class: "items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" %>
+  </div>
+</div>
 
-      <td>
-        <span><%= link "Show", to: Routes.actor_path(@conn, :show, actor) %></span>
-        <span><%= link "Edit", to: Routes.actor_path(@conn, :edit, actor) %></span>
-        <span><%= link "Delete", to: Routes.actor_path(@conn, :delete, actor), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Actor", to: Routes.actor_path(@conn, :new) %></span>
