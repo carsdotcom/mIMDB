@@ -1,5 +1,50 @@
-<h1>New Movie</h1>
+<div>
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <div class="px-4 sm:px-0">
+        <p class="mt-1 text-sm leading-5 text-gray-600">
+          This screen allows for the creation of Movies and their associated Genres and Roles.
+        </p>
+      </div>
+    </div>
+    <div class="mt-5 md:mt-0 md:col-span-2">
+      <%= form_for @changeset, Routes.movie_path(@conn, :create), fn f -> %>
+        <div class="shadow sm:rounded-md sm:overflow-hidden">
+          <div class="px-4 py-5 bg-white sm:p-6">
+            <div class="grid grid-cols-3 gap-6">
+              <div class="col-span-3 sm:col-span-2">
+                <%= label f, :title, class: "block text-sm font-medium leading-5 text-gray-700" %>
+                <%= text_input f, :title, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                <%= error_tag f, :title %>
 
-<%= render "form.html", Map.put(assigns, :action, Routes.movie_path(@conn, :create)) %>
+                <%= label f, :release, class: "mt-2 block text-sm font-medium leading-5 text-gray-700" %>
 
-<span><%= link "Back", to: Routes.movie_path(@conn, :index) %></span>
+                <%= date_select f, :release, class: "text-yellow-500", builder: builder() %>
+                <%= error_tag f, :release %>
+              </div>
+            </div>
+            <div class="flex flex-col">
+              <div class="mt-4 mb-2 block text-sm font-medium leading-5 text-gray-700">Genres</div>
+              <%= for genre <- @genres do %>
+                <div class="flex flex-row">
+                  <%= tag(:input,
+                    name: input_name(f, :genres) <> "[]",
+                    id: input_id(f, :genres, genre.id),
+                    type: "checkbox",
+                    value: genre.id,
+                    checked: is_genre_selected(genre, @changeset))
+                  %>
+                  <div class="ml-2 text-sm font-medium leading-5 text-gray-700"><%= genre.name %></div>
+                </div>
+              <% end %>
+              
+              <div class="mt-4 flex flex-row justify-between">
+                <%= submit "Save", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

@@ -6,6 +6,7 @@ defmodule MimdbWeb.MovieController do
 
   def index(conn, params) do
     user = conn.assigns.current_user
+
     if user do
       movies = Movies.list_movies(params, user.id)
       render(conn, "index.html", movies: movies, genres: Movies.list_genres())
@@ -49,14 +50,18 @@ defmodule MimdbWeb.MovieController do
     movie = Movies.get_movie!(id)
 
     case Movies.update_movie(movie, movie_params) do
-      {:ok, movie} ->
+      {:ok, _movie} ->
         conn
         |> put_flash(:info, "Movie updated successfully.")
         |> redirect(to: Routes.movie_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
-        render(conn, "edit.html", movie: movie, changeset: changeset,
-           genres: Movies.list_genres(), roles: Movies.list_roles())
+        render(conn, "edit.html",
+          movie: movie,
+          changeset: changeset,
+          genres: Movies.list_genres(),
+          roles: Movies.list_roles()
+        )
     end
   end
 
@@ -70,7 +75,8 @@ defmodule MimdbWeb.MovieController do
   end
 
   def rate(conn, params) do
-    Movies.rate_movie(params,conn.assigns.current_user )
+    Movies.rate_movie(params, conn.assigns.current_user)
+
     conn
     |> redirect(to: Routes.movie_path(conn, :index))
   end

@@ -77,10 +77,7 @@ defmodule MimdbWeb.RoleControllerTest do
 
     test "redirects when data is valid", %{conn: conn, role: role} do
       conn = put(conn, Routes.role_path(conn, :update, role), role: @update_attrs)
-      assert redirected_to(conn) == Routes.role_path(conn, :show, role)
-
-      conn = get(conn, Routes.role_path(conn, :show, role))
-      assert html_response(conn, 200) =~ "some updated character"
+      assert redirected_to(conn) == Routes.role_path(conn, :index)
     end
 
     test "renders errors when data is invalid", %{conn: conn, role: role} do

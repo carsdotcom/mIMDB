@@ -41,7 +41,7 @@ defmodule MimdbWeb.ActorController do
     actor = Movies.get_actor!(id)
 
     case Movies.update_actor(actor, actor_params) do
-      {:ok, actor} ->
+      {:ok, _actor} ->
         conn
         |> put_flash(:info, "Actor updated successfully.")
         |> redirect(to: Routes.actor_path(conn, :index))

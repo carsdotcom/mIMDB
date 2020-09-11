@@ -8,19 +8,49 @@
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/app.css") %>"/>
     <script defer type="text/javascript" src="<%= Routes.static_path(@conn, "/js/app.js") %>"></script>
   </head>
-  <body>
-    <header>
-      <section class="container">
-        <nav role="navigation">
-          <%= render "_user_menu.html", assigns %>
+  <body class="bg-gray-200">
+    <div>
+      <div class="bg-gray-800 pb-1">
+        <nav class="bg-gray-800">
+          <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+            <div class="border-gray-700">
+              <div class="flex items-center justify-between h-16 px-4 sm:px-0">
+                <div class="flex items-center">
+                  <div class="flex-shrink-0">
+                    <img src="<%= Routes.static_path(@conn, "/images/mimdb_logo.png") %>" alt="mIMDB Logo"/>
+                  </div>
+                  <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-4">
+                      <%= link "Movies", to: Routes.movie_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-white hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Actors", to: Routes.actor_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Roles", to: Routes.role_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Genres", to: Routes.genre_path(@conn, :index), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                    </div>
+                  </div>
+                </div>
+                <div class="hidden md:block">
+                  <div class="ml-4 flex items-center md:ml-6">
+                    <%= if @current_user do %>
+                      <%= link "Log out #{@current_user.name}", to: Routes.user_session_path(@conn, :delete), method: :delete, class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                    <% else %>
+                      <%= link "Register", to: Routes.user_registration_path(@conn, :new), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                      <%= link "Log in", to: Routes.user_session_path(@conn, :new), class: "px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-gray-700 focus:outline-none focus:text-white focus:bg-gray-700" %>
+                    <% end %>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </nav>
-          <img src="<%= Routes.static_path(@conn, "/images/mimdb.png") %>" alt="mIMDB Logo"/>
-      </section>
-    </header>
-    <main role="main" class="container">
-      <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-      <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-      <%= @inner_content %>
-    </main>
+      </div>
+      <main class="mt-10 bg-gray-200">
+        <div class="max-w-7xl mx-auto pb-12 px-4 sm:px-6 lg:px-8">
+          <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
+          <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
+          <%= @inner_content %>
+        </div>
+      </main>
+    </div>
   </body>
 </html>

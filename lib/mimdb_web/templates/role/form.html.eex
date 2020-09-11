@@ -1,17 +1,38 @@
-<%= form_for @changeset, @action, fn f -> %>
-  <%= if @changeset.action do %>
-    <div class="alert alert-danger">
-      <p>Oops, something went wrong! Please check the errors below.</p>
+<div>
+  <div class="md:grid md:grid-cols-3 md:gap-6">
+    <div class="md:col-span-1">
+      <div class="px-4 sm:px-0">
+        <p class="mt-1 text-sm leading-5 text-gray-600">
+          This screen allows for the editing of Roles.
+        </p>
+      </div>
     </div>
-  <% end %>
-
-  <%= label f, :character %>
-  <%= text_input f, :character %>
-  <%= error_tag f, :character %>
-  <%= hidden_input f, :movie_id %>
-Actors
-<%= select f, :actor_id, actor_select_options(@actors) %>
-  <div>
-    <%= submit "Save" %>
+    <div class="mt-5 md:mt-0 md:col-span-2">
+      <%= form_for @changeset, @action, fn f -> %>
+        <div class="shadow sm:rounded-md sm:overflow-hidden">
+          <div class="px-4 py-5 bg-white sm:p-6">
+            <div class="grid grid-cols-3 gap-6">
+              <div class="col-span-3 sm:col-span-2">
+                <%= label f, :character, class: "block text-sm font-medium leading-5 text-gray-700" %>
+                <%= text_input f, :character, class: "mt-1 form-input block w-full py-2 px-3 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:shadow-outline-blue focus:border-blue-300 transition duration-150 ease-in-out sm:text-sm sm:leading-5" %>
+                <%= error_tag f, :character %>
+                <%= hidden_input f, :movie_id %>
+                <%= label f, :actor, class: "mt-2 block text-sm font-medium leading-5 text-gray-700" %>
+                <div class="relative">
+                <%= select f, :actor_id, actor_select_options(@actors), [class: "mt-1 block appearance-none w-full border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-300"] %>
+                <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+                  <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                </div>
+              </div>
+              </div>
+            </div>
+              <div class="mt-4 flex flex-row justify-between">
+                <%= submit "Save", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% end %>
+    </div>
   </div>
-<% end %>
+</div>

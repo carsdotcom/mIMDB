@@ -19,6 +19,7 @@ defmodule MimdbWeb.RoleController do
     case Movies.create_role(role_params) do
       {:ok, role} ->
         movie = Movies.get_movie!(role.movie_id)
+
         conn
         |> put_flash(:info, "Role created successfully.")
         |> redirect(to: Routes.movie_path(conn, :edit, movie))
@@ -45,10 +46,10 @@ defmodule MimdbWeb.RoleController do
     role = Movies.get_role!(id)
 
     case Movies.update_role(role, role_params) do
-      {:ok, role} ->
+      {:ok, _role} ->
         conn
         |> put_flash(:info, "Role updated successfully.")
-        |> redirect(to: Routes.role_path(conn, :show, role))
+        |> redirect(to: Routes.role_path(conn, :index))
 
       {:error, %Ecto.Changeset{} = changeset} ->
         actors = Movies.list_actors()

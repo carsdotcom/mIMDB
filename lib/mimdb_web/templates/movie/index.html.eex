@@ -1,46 +1,84 @@
-<h1>Listing Movies</h1>
+<div class="shadow bg-white px-4 py-5 rounded-md border-b border-gray-200 sm:px-6">
+  <div class="-ml-4 -mt-2 flex items-center justify-between flex-wrap sm:flex-no-wrap">
+    <div class="ml-4 mt-2">
+      <h3 class="text-xlg leading-6 font-light text-gray-700">
+        Listing Movies
+      </h3>
+    </div>
+    <div class="ml-4 mt-2 flex-shrink-0 mb-2">
+      <%= form_for @conn, Routes.movie_path(@conn, :index), [method: :get], fn c -> %>
+        <div class="flex flex-row">
+          <div class="relative">
+            <%= select c, :query, genre_select_options(@genres), class: "mt-1 block appearance-none w-full border border-gray-300 text-gray-700 py-2 px-4 pr-8 rounded-md leading-tight focus:outline-none focus:bg-white focus:border-blue-300" %>
+            <div class="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
+              <svg class="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+            </div>
+          </div>
+          <%= submit "Filter by Genre", class: "ml-2 inline-flex items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:shadow-outline-indigo focus:border-indigo-700 active:bg-indigo-700" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+  <div class="flex flex-col">
+    <div class="-my-2 overflow-x-auto sm:-mx-6 lg:-mx-8">
+      <div class="py-2 align-middle inline-block min-w-full sm:px-6 lg:px-8">
+        <div class=" overflow-hidden border-b border-gray-200 sm:rounded-lg">
+          <table class="min-w-full">
+            <thead>
+              <tr class="border-b">
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Title
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Release Date
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Rating
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Average
+                </th>
+                <th class="px-6 py-3 bg-gray-50 text-left text-xs leading-4 font-medium text-gray-500 uppercase tracking-wider">
+                  Count
+                </th>
+                <th class="px-6 py-3 bg-gray-50"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <%= for movie <- @movies do %>
+                <tr class="bg-white">
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
+                    <%= movie.title %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= movie.release %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= form_for @conn, Routes.movie_path(@conn, :rate, movie), fn f -> %>
+                      <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5], selected: rated_value(@current_user, movie), style: "margin-right:10px"  %>
+                      <%= submit "Rate", class: "items-center px-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" %>
+                    <% end %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= get_rating_average(movie) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 text-gray-500">
+                    <%= get_rating_count(movie) %>
+                  </td>
+                  <td class="px-6 py-4 whitespace-no-wrap text-right text-sm leading-5 font-medium">
+                    <span><%= link "Edit", to: Routes.movie_path(@conn, :edit, movie), class: "px-2 text-indigo-600 hover:text-indigo-900" %></span>
+                    <span><%= link "Delete", to: Routes.movie_path(@conn, :delete, movie), method: :delete, data: [confirm: "Are you sure?"], class: "text-indigo-600 hover:text-indigo-900" %></span>
+                  </td>
+                </tr>
+              <% end %>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="mt-4">
+    <%= link "New Movie", to: Routes.movie_path(@conn, :new), class: "items-center px-4 py-2 border border-transparent text-sm leading-5 font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-500 focus:outline-none focus:border-indigo-700 focus:shadow-outline-indigo active:bg-indigo-700 transition ease-in-out duration-150" %>
+  </div>
+</div>
 
-<table>
-  <thead>
-    <tr>
-      <th>Title</th>
-      <th>Release</th>
-      <th>Rating</th>
-      <th>Average</th>
-      <th></th>
-      <th>Count</th>
-
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-
-Filter by Genre
-<%= form_for @conn, Routes.movie_path(@conn, :index), [method: :get], fn f -> %>
-  <%= select f, :query, genre_select_options(@genres), style: "margin:10px" %>
-  <%= submit "Search" %>
-<% end %>
-
-<%= for movie <- @movies do %>
-    <tr>
-      <td><%= link "#{movie.title}", to: Routes.movie_path(@conn, :edit, movie) %></td>
-      <td><%= movie.release %></td>
-      <td>
-        <%= form_for @conn, Routes.movie_path(@conn, :rate, movie), fn f -> %>
-          <%= select f, :rating, ["Not Rated": 0 , "1": 1, "2": 2, "3": 3, "4": 4, "5": 5], selected: rated_value(@current_user, movie), style: "margin-right:10px"  %>
-          <%= submit "Rate" %>
-        <% end %>
-      </td>
-      <td><%= get_rating_average(movie) %></td>
-      <td>of</td>
-      <td><%= get_rating_count(movie) %></td>
-
-      <td>
-        <span><%= link "Delete", to: Routes.movie_path(@conn, :delete, movie), method: :delete, data: [confirm: "Are you sure?"] %></span>
-      </td>
-    </tr>
-<% end %>
-  </tbody>
-</table>
-
-<span><%= link "New Movie", to: Routes.movie_path(@conn, :new) %></span>

@@ -1,6 +1,11 @@
 defmodule MimdbWeb.MovieView do
   use MimdbWeb, :view
+
   alias Mimdb.Movies
+
+  def builder() do
+    MimdbWeb.SharedView.builder()
+  end
 
   def is_genre_selected(genre, changeset) do
     changeset.data.genres
