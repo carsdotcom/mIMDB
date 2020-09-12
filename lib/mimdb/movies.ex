@@ -8,7 +8,7 @@ defmodule Mimdb.Movies do
   alias Mimdb.Movies.Genre
   alias Mimdb.Movies.Actor
   alias Mimdb.Movies.Rating
-
+  alias Mimdb.Movies.Role
   @doc """
   Returns the list of genres.
 
@@ -333,7 +333,20 @@ defmodule Mimdb.Movies do
 
   """
   def delete_movie(%Movie{} = movie) do
+    delete_movie_roles(movie)
+    delete_movie_ratings(movie)
+
     Repo.delete(movie)
+  end
+
+  def delete_movie_roles(movie) do
+    from(r in Role, where: r.movie_id == ^movie.id)
+    |> Repo.delete_all()
+  end
+
+  def delete_movie_ratings(movie) do
+    from(r in Rating, where: r.movie_id == ^movie.id)
+    |> Repo.delete_all()
   end
 
   @doc """
@@ -348,8 +361,6 @@ defmodule Mimdb.Movies do
   def change_movie(%Movie{} = movie, attrs \\ %{}) do
     Movie.changeset(movie, attrs)
   end
-
-  alias Mimdb.Movies.Role
 
   @doc """
   Returns the list of roles.
