@@ -217,6 +217,7 @@ defmodule Mimdb.Movies do
   defp query_sorted_movies(user_id) do
     from(m in Movie,
       left_join: ratings in assoc(m, :ratings),
+      distinct: m.id,
       where: ratings.user_id == ^user_id,
       or_where: m.id == ratings.movie_id,
       or_where: is_nil(ratings.movie_id),

@@ -31,6 +31,9 @@ defmodule MimdbWeb.ActorControllerTest do
       conn = post(conn, Routes.actor_path(conn, :create), actor: @create_attrs)
 
       assert redirected_to(conn) == Routes.actor_path(conn, :index)
+
+      conn = get(conn, Routes.actor_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Actors"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -54,6 +57,9 @@ defmodule MimdbWeb.ActorControllerTest do
     test "redirects when data is valid", %{conn: conn, actor: actor} do
       conn = put(conn, Routes.actor_path(conn, :update, actor), actor: @update_attrs)
       assert redirected_to(conn) == Routes.actor_path(conn, :index)
+
+      conn = get(conn, Routes.actor_path(conn, :index))
+      assert html_response(conn, 200) =~ "some updated name"
     end
 
     test "renders errors when data is invalid", %{conn: conn, actor: actor} do

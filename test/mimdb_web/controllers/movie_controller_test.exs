@@ -46,7 +46,6 @@ defmodule MimdbWeb.MovieControllerTest do
       conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "Listing Movies"
       assert html_response(conn, 200) =~ "Filter by Genre"
-      # assert html_response(conn, 200) =~ "<select id=\"movie_genre_id\""
     end
 
     test "lists all movies sorted by name", %{conn: conn} do
@@ -66,10 +65,14 @@ defmodule MimdbWeb.MovieControllerTest do
   end
 
   describe "create movie" do
+    setup [:register_and_log_in_user]
     test "redirects to show when data is valid", %{conn: conn} do
       conn = post(conn, Routes.movie_path(conn, :create), movie: @create_attrs)
 
       assert redirected_to(conn) == Routes.movie_path(conn, :index)
+
+      conn = get(conn, Routes.movie_path(conn, :index))
+      assert html_response(conn, 200) =~ "Listing Movies"
     end
 
     test "renders errors when data is invalid", %{conn: conn} do
@@ -92,13 +95,14 @@ defmodule MimdbWeb.MovieControllerTest do
   end
 
   describe "update movie" do
+    setup [:register_and_log_in_user]
     setup [:create_movie]
 
     test "redirects when data is valid", %{conn: conn, movie: movie} do
       conn = put(conn, Routes.movie_path(conn, :update, movie), movie: @update_attrs)
       assert redirected_to(conn) == Routes.movie_path(conn, :index)
 
-      conn = get(conn, Routes.movie_path(conn, :show, movie))
+      conn = get(conn, Routes.movie_path(conn, :index))
       assert html_response(conn, 200) =~ "some updated title"
     end
 
