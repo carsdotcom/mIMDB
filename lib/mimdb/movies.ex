@@ -19,7 +19,7 @@ defmodule Mimdb.Movies do
 
   """
   def list_genres do
-    Repo.all(Genre)
+    Repo.all(from g in Genre, order_by: [asc: g.name])
   end
 
   @doc """
@@ -113,7 +113,7 @@ defmodule Mimdb.Movies do
 
   """
   def list_actors do
-    Repo.all(Actor)
+    Repo.all(from a in Actor, order_by: [asc: a.name])
   end
 
   @doc """
@@ -211,6 +211,7 @@ defmodule Mimdb.Movies do
     search_genre_term = get_in(params, ["query"])
     query_sorted_movies(user_id)
     |> filter_by_genre(search_genre_term)
+    |> order_by_title()
     |> Repo.all()
   end
 
@@ -222,8 +223,8 @@ defmodule Mimdb.Movies do
       or_where: m.id == ratings.movie_id,
       or_where: is_nil(ratings.movie_id),
       select: %Movie{ title: m.title, release: m.release, id: m.id,
-                      ratings: %Rating{ value: ratings.value} },
-      order_by: [asc: m.title])
+                      ratings: %Rating{ value: ratings.value} }
+    )
   end
 
   def filter_by_genre(q,nil) do
@@ -239,6 +240,11 @@ defmodule Mimdb.Movies do
     from m in q,
          left_join: g in assoc(m, :genres),
          where: g.id == ^search_genre_term
+  end
+
+  def order_by_title(q) do
+    from m in q,
+    order_by: [asc: m.title]
   end
 
   @doc """
@@ -371,10 +377,11 @@ defmodule Mimdb.Movies do
       [%Role{}, ...]
 
   """
-  def list_roles, do: Repo.all(Role)
+  def list_roles, do: Repo.all(from r in Role, order_by: [asc: r.character])
 
   def list_roles_for_movie_with_id(movie_id) do
-    Repo.all(from(r in Role, where: r.movie_id == ^movie_id))
+    Repo.all(from(r in Role, where: r.movie_id == ^movie_id),
+                             order_by: [asc: :character])
   end
 
   @doc """
