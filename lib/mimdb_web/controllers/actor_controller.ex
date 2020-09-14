@@ -53,10 +53,19 @@ defmodule MimdbWeb.ActorController do
 
   def delete(conn, %{"id" => id}) do
     actor = Movies.get_actor!(id)
-    {:ok, _actor} = Movies.delete_actor(actor)
-
-    conn
-    |> put_flash(:info, "Actor deleted successfully.")
-    |> redirect(to: Routes.actor_path(conn, :index))
+    case Movies.delete_actor(actor) do
+    {:ok, _actor} ->
+      conn
+      |> put_flash(:info, "Actor deleted successfully.")
+      |> redirect(to: Routes.actor_path(conn, :index))
+    %Ecto.ConstraintError{} ->
+      conn
+      |> put_flash(:info, "This actor is associated with a movie and can't be deleted.")
+      |> redirect(to: Routes.actor_path(conn, :index))
+    {:error, _} ->
+       conn
+       |> put_flash(:info, "This actor is associated with a movie and can't be deleted.")
+       |> redirect(to: Routes.actor_path(conn, :index))
+    end
   end
 end

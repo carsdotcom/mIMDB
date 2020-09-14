@@ -18,7 +18,7 @@
                 <%= error_tag f, :name %>
                 
                 <%= label f, :birthdate, class: "mt-2 block text-sm font-medium leading-5 text-gray-700" %>
-                <%= date_select f, :birthdate, builder: builder() %>
+                <%= date_select f, :birthdate, builder: builder(), year: [options: 1900..2020]  %>
               </div>
             </div>
               <div class="mt-4 flex flex-row justify-between">

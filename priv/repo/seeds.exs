@@ -18,7 +18,7 @@ defmodule Mimdb.Seeds.Users do
   # I was struggling to get Users.Fixtures.user_fixture to work (module inaccessible)
   # My guess is that modules under /test are not in
   # TODO: optimize this so that it's an insert_all rather than using register_user which takes a while
-  @number_of_users 20
+  @number_of_users 40
   def unique_user_email, do: "user#{System.unique_integer()}@example.com"
   def unique_user_name, do: "John#{System.unique_integer()} Doe"
   def valid_user_password, do: "blahblahblah"

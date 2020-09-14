@@ -179,7 +179,11 @@ defmodule Mimdb.Movies do
 
   """
   def delete_actor(%Actor{} = actor) do
-    Repo.delete(actor)
+    try do
+      Repo.delete(actor)
+    rescue
+      e in Ecto.ConstraintError ->  e
+    end
   end
 
   @doc """
