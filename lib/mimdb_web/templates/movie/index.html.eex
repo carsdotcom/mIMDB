@@ -45,7 +45,7 @@
               </tr>
             </thead>
             <tbody>
-              <%= for movie <- @movies do %>
+              <%= for movie <- sort_movies(@movies) do %>
                 <tr class="bg-white">
                   <td class="px-6 py-4 whitespace-no-wrap text-sm leading-5 font-medium text-gray-900">
                     <%= movie.title %>
