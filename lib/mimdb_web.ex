@@ -32,12 +32,29 @@ defmodule MimdbWeb do
       use Phoenix.View,
         root: "lib/mimdb_web/templates",
         namespace: MimdbWeb
-
+      import Phoenix.LiveView.Helpers
       # Import convenience functions from controllers
       import Phoenix.Controller,
         only: [get_flash: 1, get_flash: 2, view_module: 1, view_template: 1]
 
       # Include shared imports and aliases for views
+      unquote(view_helpers())
+    end
+  end
+
+    def live_view do
+    quote do
+      use Phoenix.LiveView,
+        layout: {MimdbWeb.LayoutView, "live.html"}
+
+      unquote(view_helpers())
+    end
+  end
+
+  def live_component do
+    quote do
+      use Phoenix.LiveComponent
+
       unquote(view_helpers())
     end
   end
@@ -48,6 +65,7 @@ defmodule MimdbWeb do
 
       import Plug.Conn
       import Phoenix.Controller
+      import Phoenix.LiveView.Router
     end
   end
 

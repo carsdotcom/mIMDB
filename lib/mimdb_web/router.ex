@@ -6,7 +6,7 @@ defmodule MimdbWeb.Router do
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
-    plug :fetch_flash
+    plug :fetch_live_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
     plug :fetch_current_user
@@ -26,6 +26,7 @@ defmodule MimdbWeb.Router do
     get "/movies/:id/roles/new", RoleController, :new
     get "/", MovieController, :index
     post "/movies/:movie_id/rate", MovieController, :rate
+    live "/movies_live", MoviesLive, session: [:current_user]
   end
 
   # Other scopes may use custom stacks.
